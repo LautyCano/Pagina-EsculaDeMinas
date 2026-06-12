@@ -1,0 +1,13 @@
+:host {
+    display: grid;
+    grid-template-areas:
+        "header"
+        "content"
+        "footer";
+    grid-template-rows: auto 1fr auto;
+}
+
+.content {
+    display: block;
+    grid-area: content;
+}

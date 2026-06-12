@@ -1,0 +1,106 @@
+<main class="home-container">
+  <!-- Hero Section with Full Background Image -->
+  <section class="hero-section d-flex align-items-center justify-content-center">
+    <div class="hero-overlay"></div>
+    <div class="container py-5 z-2">
+      <div class="row justify-content-center">
+        <div class="col-12 col-lg-10 col-xl-9">
+          <!-- Glassmorphic Card Container -->
+          <div class="history-carousel-card p-4 p-md-5 rounded-4 shadow-lg glass-card border border-white-10 text-center">
+            
+            <h2 class="h2 fw-bold mb-4 gradient-text">
+              Historia de nuestra institución
+            </h2>
+
+            <!-- Carusel -->
+            <div class="carousel-content-wrapper position-relative overflow-hidden mb-4">
+              <div class="carousel-slide-item">
+                <!-- Titulo de la diapositiva -->
+                <h3 class="h5 fw-bold mb-3 text-secondary-custom">
+                  {{ historias[currentHistoria].title }}
+                </h3>
+                
+                <!-- Texto de la diapositiva -->
+                <p class="text-muted-custom text-justify fs-5 mb-4">
+                  {{ historias[currentHistoria].text }}
+                </p>
+
+                <!-- caja de Nota-->
+                <div class="highlight-box p-3 rounded-3 text-start">
+                  <p class="mb-0 text-muted-custom fw-semibold italic-text">
+                    <i class="bi bi-info-circle-fill me-2 highlight-icon"></i>
+                    {{ historias[currentHistoria].highlight }}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Controles del Carusel -->
+            <div class="d-flex align-items-center justify-content-between mt-4">
+              <!-- Boton Anterior -->
+              <button (click)="anterior()" class="btn btn-outline-light rounded-circle p-3 d-flex align-items-center justify-content-center nav-btn" aria-label="Anterior">
+                <i class="bi bi-chevron-left"></i>
+              </button>
+
+              <!-- Indicadores -->
+              <div class="carousel-indicators-dots d-flex gap-2">
+                <button 
+                  *ngFor="let historia of historias; let i = index" 
+                  (click)="setHistoria(i)" 
+                  [class.active]="i === currentHistoria"
+                  class="indicator-dot" 
+                  [attr.aria-label]="'Ir a la diapositiva ' + (i + 1)">
+                </button>
+              </div>
+
+              <!-- Boton Siguiente -->
+              <button (click)="siguiente()" class="btn btn-outline-light rounded-circle p-3 d-flex align-items-center justify-content-center nav-btn" aria-label="Siguiente">
+                <i class="bi bi-chevron-right"></i>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features-section py-5 bg-surface-custom">
+    <div class="container">
+      <div class="text-center max-w-2xl mx-auto mb-5" >
+        <h2 class="h1 fw-bold mb-3">Nuestra Sedes</h2>
+        <p class="text-muted-custom">Parte de la historia de la Escuela de Minas.</p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-4">
+          <a href="./../sedes">
+            <div class="card h-100 border-0 shadow-sm p-4 rounded-4 hover-card transition-all" >
+            <h3 class="h4 fw-bold mb-3">Sede la Quiaca</h3>
+            <p class="text-muted-custom mb-0">En un sencillo pero emotivo acto, la Universidad Nacional de Jujuy (UNJu) dejó inaugurada oficialmente la sede de la Escuela de Minas "Dr. Horacio Carrillo" en la ciudad de la Quiaca.</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-4">
+          <a href="./../sedes">
+            <div class="card h-100 border-0 shadow-sm p-4 rounded-4 hover-card transition-all">
+              <h3 class="h4 fw-bold mb-3">Sede Yuto</h3>
+              <p class="text-muted-custom mb-0">En un sencillo pero emotivo acto, la Universidad Nacional de Jujuy (UNJu) dejó inaugurada oficialmente la sede de la Escuela de Minas "Dr. Horacio Carrillo" en la ciudad de Yuto.</p>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-4">
+          <a href="./../sedes">
+            <div class="card h-100 border-0 shadow-sm p-4 rounded-4 hover-card transition-all">
+              <h3 class="h4 fw-bold mb-3">Sede Capital</h3>
+              <p class="text-muted-custom mb-0">Sede principal de la Escuela de Minas Dr. Horacio Carrillo.</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

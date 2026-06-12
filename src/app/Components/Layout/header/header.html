@@ -1,0 +1,210 @@
+<header>
+    <nav class="navbar navbar-expand-lg" aria-label="Navegación principal" bg-body-tertiary>
+        <div class="container">
+            <!-- Logo de la agencia -->
+            <a routerLink="/home" class="navbar-brand">Escuela de Minas</a>
+
+            <!-- Botón toggle para dispositivos móviles -->
+            <button class="navbar-toggler border-0 shadow-none px-2" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarPrincipal" aria-controls="navbarPrincipal" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <div class="custom-toggler">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+
+            <!-- Opciones del menú principal-->
+            <div class="collapse navbar-collapse" id="navbarPrincipal">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/home">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/noticias">Noticias</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/historia">Historia</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/carreras">Carreras</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/sedes">Sedes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="/inscripcion">Inscripciones</a>
+                    </li>
+                </ul>
+
+                <!-- Botones de acción del navbar -->
+                <div class="d-flex align-items-center gap-2">
+                    <!-- Botón para alternar el modo oscuro -->
+                    <button (click)="toggleDarkMode()"
+                        class="btn btn-outline-secondary border-0 p-2 d-flex align-items-center justify-content-center rounded-circle dark-mode-btn"
+                        type="button" aria-label="Alternar modo oscuro">
+                        <i [class]="isDarkMode ? 'bi bi-sun' : 'bi bi-moon'"></i>
+                    </button>
+                   @if(this.usuario == null){
+                        <button type="button" routerLink="/login" class="btn btn-sm btn-outline-primary m-1 shadow-sm rounded-pill px-3 fw-semibold">
+                            Iniciar Sesión
+                        </button>
+                    }@else {
+                        @if(this.usuario ){
+                        <button class="btn btn-outline-secondary border-0 p-2 d-flex align-items-center justify-content-center rounded-circle position-relative"
+                        type="button" aria-label="Panel de Administrador" data-bs-toggle="modal" data-bs-target="#panel">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                        }
+                        <button type="button" class="btn btn-sm btn-outline-primary m-1 shadow-sm rounded-pill px-3 fw-semibold" data-bs-toggle="modal" data-bs-target="#inicioModal" (click)="cerrarSesion()">Cerrar Sesión</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<!-- Toast de cierre de sesion -->
+<div class="toast" id="ToastOut" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
+  <div class="toast-header">
+        <i class="bi bi-x-circle-fill text-danger me-2"></i>
+        <strong class="me-auto">Adios</strong>
+        <small class="text-body-secondary">Hace un momento</small>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+  </div>
+  <div class="toast-body">
+        ¡Sesión cerrada exitosamente!
+  </div>
+</div>
+
+<!--Modal Panel Administrador-->
+<div class="modal fade modal-panel" id="panel" tabindex="-1" aria-labelledby="panelLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-panel">
+        <div class="modal-content modal-content-panel">
+            <div class="modal-header modal-header-panel">
+                <h5 class="modal-title text-uppercase fw-semibold letter-spacing" id="panelLabel">Panel de
+                    Administrador</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body modal-body-panel">
+                <h5 class="text-center text-uppercase fw-semibold letter-spacing">Noticias</h5>
+                @for (noticia of noticias; track $index) {
+                <div class="carrito-item d-flex align-items-center gap-3 mb-3 pb-3 border-bottom">
+                    <img [src]="noticia.imagen" [alt]="noticia.titulo" class="rounded"
+                        style="width: 60px; height: 60px; object-fit: contain;">
+                    <div class="flex-grow-1">
+                        <p class="mb-0 fw-semibold small card-title text-primary">{{ noticia.titulo }}</p>
+                    </div>
+                    <div class="text-end">
+                        @if(this.usuario && (this.usuario.rol == "admin" || this.usuario.rol == "administradorResponsableComunicacion")) {
+                            <button class="btn btn-sm btn-outline-danger p-0 px-1"
+                                (click)="borrarNoticia(noticia.id)" data-bs-dismiss="modal">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        }
+                        <button class="btn btn-sm btn-outline-success p-0 px-1" (click)="editarNoticia(noticia)" data-bs-dismiss="modal">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                    </div>
+                </div>
+                }
+
+                <h5 class="text-center text-uppercase fw-semibold letter-spacing mt-3">Distinciones</h5>
+                @for (distincion of distinciones; track $index) {
+                <div class="carrito-item d-flex align-items-center gap-3 mb-3 pb-3 border-bottom">
+                    <img [src]="distincion.imagen" [alt]="distincion.titulo" class="rounded"
+                        style="width: 60px; height: 60px; object-fit: contain;">
+                    <div class="flex-grow-1">
+                        <p class="mb-0 fw-semibold small card-title text-">{{ distincion.titulo }}</p>
+                    </div>
+                    <div class="text-end">
+                        @if(this.usuario && (this.usuario.rol == "admin" || this.usuario.rol == "administradorResponsableComunicacion")) {
+                            <button class="btn btn-sm btn-outline-danger p-0 px-1" (click)="borrarDistincion(distincion.id)" data-bs-dismiss="modal">
+                            <i class="bi bi-trash"></i>
+                            </button>
+                        }
+                        <button class="btn btn-sm btn-outline-success p-0 px-1" (click)="editarDistincion(distincion)" data-bs-dismiss="modal">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                    </div>
+                </div>
+                }
+                <p class="small text-center text-muted fst-italic">En caso de estar editando una publicación, no podra seleccionar otra publicacion para editar hasta que guarde o cancele la edición.</p>
+            </div>
+
+            <!-- Footer-->
+            <div class="modal-footer-panel p-3 border-top">
+                <div class="d-flex justify-content-between align-items-center w-100">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    @if(this.usuario && this.usuario.rol == "admin") {  
+                        <button class="btn btn-outline-secondary border-0 p-2 d-flex align-items-center justify-content-center position-relative"
+                        type="button" aria-label="Registrar Usuario" data-bs-toggle="modal" data-bs-target="#registroModal">
+                            <i class="bi bi-person-plus"></i> Registrar
+                        </button>                
+                    }
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!--*********************************Registrar Usuario*********************************-->
+<div class="modal fade" id="registroModal" tabindex="-1" aria-labelledby="registroModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+        
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="registroModalLabel">Registrar Usuario</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="registroModal">
+                        <div class="mb-3 text-start">
+                            <label for="nombre" class="col-form-label fw-medium">Nombre de Usuario:</label>
+                            <input type="text" class="form-control bg-secondary text-white border-0" id="nombre" required>
+                        </div>
+
+                        <div class="mb-3 text-start">
+                            <label for="rol" class="col-form-label fw-medium">rol:</label>
+                            <select class="form-select bg-secondary text-white border-0" id="rol" required>
+                                <option value="">Seleccione un rol</option>
+                                <option value="admin">admin</option>
+                                <option value="administradorArea">administradorArea</option>
+                                <option value="administradorResponsableComunicacion">administradorResponsableComunicacion</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3 text-start">
+                            <label for="contra" class="col-form-label fw-medium">Contraseña:</label>
+                            <input type="password" class="form-control bg-secondary text-white border-0" id="contra" required>
+                        </div>
+
+                        
+                        <div id="errorMessage" class="text-danger small d-none mb-2 text-start"></div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary px-4" (click)="RegistarUsuario()" data-bs-dismiss="modal">Registrar</button>
+                </div>
+        </div>
+    </div>
+</div>
+<!-- Toast Nuevo Usuario -->
+<div class="toast" id="ToastAdd" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="2000">
+  <div class="toast-header">
+        <i class="bi bi-x-circle-fill text-success me-2"></i>
+        <strong class="me-auto">Exito</strong>
+        <small class="text-body-secondary">Hace un momento</small>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+  </div>
+  <div class="toast-body">
+        ¡Usuario agregado exitosamente!
+  </div>
+</div>

@@ -1,0 +1,241 @@
+.home-container {
+  overflow: hidden;
+}
+
+.hero-section {
+  position: relative;
+  min-height: 80vh;
+  padding: 6rem 0;
+  background-image: url('/img/colegio-de-minas.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.65) 0%, rgba(15, 23, 42, 0.85) 100%);
+  z-index: 1;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #0dcaf0 0%, #0d6efd 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+.history-carousel-card {
+  position: relative;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25) !important;
+  max-width: 850px;
+  margin: 0 auto;
+  transition: all 0.3s ease;
+}
+
+.history-carousel-card .text-secondary-custom {
+  color: #ffffff !important;
+  font-size: 1.4rem;
+  letter-spacing: 0.5px;
+}
+
+.history-carousel-card .text-muted-custom {
+  color: rgba(255, 255, 255, 0.9) !important;
+  line-height: 1.8;
+  font-weight: 400;
+  text-align: justify;
+}
+
+body.dark-mode .history-carousel-card {
+  background: rgba(15, 23, 42, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45) !important;
+}
+
+/* Fix to prevent black background around the card in dark mode */
+body.dark-mode .hero-section {
+  background-color: transparent !important;
+}
+
+body.dark-mode .hero-section .container {
+  background-color: transparent !important;
+}
+
+.highlight-box {
+  background: rgba(255, 255, 255, 0.08);
+  border-left: 4px solid #0dcaf0;
+  padding: 1.25rem;
+  margin-top: 1.5rem;
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.02);
+}
+
+body.dark-mode .highlight-box {
+  background: rgba(0, 0, 0, 0.2);
+  border-left: 4px solid #0d6efd;
+}
+
+.highlight-icon {
+  color: #0dcaf0;
+  font-size: 1.2rem;
+}
+
+body.dark-mode .highlight-icon {
+  color: #0d6efd;
+}
+
+.italic-text {
+  font-style: italic;
+}
+
+.carousel-content-wrapper {
+  min-height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .carousel-content-wrapper {
+    min-height: 380px;
+  }
+}
+
+.carousel-slide-item {
+  animation: slideFadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+}
+
+@keyframes slideFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.nav-btn {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+  width: 45px;
+  height: 45px;
+  padding: 0 !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.nav-btn:hover {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(255, 255, 255, 0.3);
+}
+
+.nav-btn:active {
+  transform: scale(0.95);
+}
+
+.carousel-indicators-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.indicator-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.35);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.indicator-dot:hover {
+  background-color: rgba(255, 255, 255, 0.7);
+  transform: scale(1.2);
+}
+
+.indicator-dot.active {
+  width: 28px;
+  border-radius: 5px;
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+}
+
+.bg-surface-custom {
+  background-color: var(--surface-color);
+}
+
+.hover-up {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hover-up:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.status-indicator {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.status-indicator.online {
+  background-color: #4cdf7a;
+  box-shadow: 0 0 8px #4cdf7a;
+}
+
+.uppercase-spaced {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.hover-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: var(--card-bg);
+}
+
+.hover-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important;
+}
+
+.icon-box {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.max-w-2xl {
+  max-width: 42rem;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}

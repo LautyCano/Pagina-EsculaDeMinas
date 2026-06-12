@@ -1,0 +1,36 @@
+<main class="container my-5">
+    <div class="section-title text-center mb-4">
+        <h1>Carreas</h1>
+        <h2>Escuela de Minas</h2>
+        <p>Años de cursado: 6 (seis) divididos en dos Ciclos:</p>
+        <p>Ciclo Básico: 1ro, 2do y 3ro año C.B</p>
+        <p>Ciclo Superior: 1ro., 2do. y 3er. año C.S</p>
+    </div>
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        <div class="col" *ngFor="let carrera of tecnicaturas">
+            <div class="card h-100 tecnicatura-card shadow-sm">
+                <div class="card-img-container bg-light d-flex align-items-center justify-content-center"
+                    style="height: 180px;">
+                    <img [src]="carrera.img" class="card-img-top w-100 h-100 object-fit-contain"
+                        [alt]="carrera.nombre">
+                </div>
+
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title text-primary">{{ carrera.nombre }}</h5>
+                    <p class="card-text flex-grow-1 text-muted small">{{ carrera.descripcion }}</p>
+                    <span class="mb-0 fw-bold text-dark card-span">Duración: {{ carrera.duracion }}</span>
+                    <div class="mt-auto pt-3 d-flex justify-content-between align-items-center">
+                            <a class="btn btn-outline-success btn-sm d-flex align-items-center gap-2 px-3" [href]="carrera.plan"> Plan de estudios</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="highlight-box p-3 rounded-3 text-start">
+        <p class="mb-0 text-muted-custom fw-semibold italic-text">
+            <i class="bi bi-info-circle-fill me-2 highlight-icon"></i>
+            En ambos Ciclos los alumnos deben realizar actividades extracurriculares por las cuales se le otorgan créditos, en el marco de proyectos que presentan los docentes en sus horas institucionales.
+        </p>
+    </div>
+</main>

@@ -1,0 +1,126 @@
+<div class="container my-5"> <!--Contenedor principal-->
+    <div class="row justify-content-center"> <!--Centra las columnas-->
+        <div class="col-12 col-md-10 col-lg-8"> <!--Columna de ancho variable-->
+
+            <div class="card card-custom"> <!--Tarjeta con borde redondeado-->
+                <div class="card-header card-header-custom text-center py-4"> <!--Header de la tarjeta-->
+                    <h3 class="mb-0">Inscripciones a Cursos / Ingreso {{anoActual}} </h3> <!--Título del formulario-->
+                </div>
+
+                <div class="card-body p-4">
+                    <form [formGroup]="inscripcionForm" (ngSubmit)="onSubmit()"> <!--Formulario-->
+                        <div class="row g-3"> <!--Filas y columnas-->
+
+                            <div class="col-12"> <!--DNI Alumno-->
+                                <label for="dniAlumno" class="form-label">DNI del Alumno / Ingresante</label>
+                                <input type="text" class="form-control" id="dniAlumno" name="dniAlumno" 
+                                placeholder="40700430" pattern="\d{7,8}" maxlength="8" required formControlName="dni" /> <!--Pattern: "\d{7,8  queire decir que solo acepta entre 7 a 8 numeros-->
+                            </div>
+
+                            <div class="col-6"> <!--Nombre Alumno-->
+                                <label for="nombreAlumno" class="form-label">Nombre del Alumno / Ingresante</label>
+                                <input type="text" class="form-control" id="nombreAlumno" name="nombreAlumno" 
+                                placeholder="Nombre" required formControlName="nombre" /> 
+                            </div>
+                            <div class="col-6"> <!--Apellido Alumno-->
+                                <label for="apellidoAlumno" class="form-label">Apellido del Alumno / Ingresante</label>
+                                <input type="text" class="form-control" id="apellidoAlumno" name="apellidoAlumno" 
+                                placeholder="Apellido" required formControlName="apellido" /> 
+                            </div>
+
+                            <div class="col-md-6"> <!--Categoria Alumno-->
+                                <label for="categoriaAlumno" class="form-label">Categoria Alumno</label>
+                                <select class="form-control" id="categoriaAlumno" name="categoriaAlumno" formControlName="categoriaAlumno" >
+                                    <option value="" disabled selected>Seleccione una categoría</option>
+                                    <option *ngFor="let cat of categorias" [value]="cat.nombre">{{cat.nombre}}</option>
+                                </select>
+                            </div>
+
+                            <div class="col-12" *ngIf="inscripcionForm.get('categoriaAlumno')?.value == 'Ingresante'"><!-- ngIf: Es como un if donde pregunta si categoriaAlumno tienen algo cargado. Si es asi muestra ciertos parametros-->
+                                <div class="col-12">
+                                    <label for="dnitutor" class="form-label">Dni Tutor</label>
+                                    <input type="number" class="form-control" id="dnitutor" name="dnitutor" required formControlName="dnitutor" />
+                                </div>
+                                
+                                <div class="col-md-6"> <!--Acta de nacimiento-->
+                                    <label for="actaNacimiento" class="form-label">Acta de Nacimiento</label>
+                                    <input type="file" class="form-control" id="actaNacimiento" name="actaNacimiento" required formControlName="actaNacimiento" />
+                                </div>
+
+                                <div class="col-md-6"> <!--Certificado de Estudio-->
+                                    <label for="certificadoEstudio" class="form-label">Certificado de Estudio</label>
+                                    <input type="file" class="form-control" id="certificadoEstudio" name="certificadoEstudio" required formControlName="certificadoEstudio" />
+                                </div>
+
+                                <div class="col-md-6"> 
+                                    <label for="fichaSalud" class="form-label">Ficha de Salud</label>
+                                    <input type="file" class="form-control" id="fichaSalud" name="fichaSalud"  formControlName="fichaSalud" />
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="numeroTelefonoTutor" class="form-label">Numero de Telefono Tutor</label>
+                                    <input type="number" class="form-control" id="numeroTelefonoTutor" name="numeroTelefonoTutor"  formControlName="numeroTelefonoTutor" />
+                                </div>
+                            </div>
+
+                            <div class="col-12" *ngIf="inscripcionForm.get('categoriaAlumno')?.value == 'Ciclo Superior'">
+                                 <div class="col-md-12">
+                                    <label for="dnitutor" class="form-label">Dni Tutor</label>
+                                    <input type="number" class="form-control" id="dnitutor" name="dnitutor" required formControlName="dnitutor" />
+                                </div>
+
+                                <div class="col-6"> <!--Acta de nacimiento-->
+                                    <label for="actaNacimiento" class="form-label">Acta de Nacimiento</label>
+                                    <input type="file" class="form-control" id="actaNacimiento" name="actaNacimiento" required formControlName="actaNacimiento" />
+                                </div>
+
+                                <div class="col-6"> <!--Libreta de notas-->
+                                    <label for="libretaNotas" class="form-label">Libreta de Notas</label>
+                                    <input type="file" class="form-control" id="libretaNotas" name="libretaNotas" required formControlName="libretaNotas" />
+                                </div>
+
+                                <div class="col-6"> 
+                                    <label for="fichaSalud" class="form-label">Ficha de Salud</label>
+                                    <input type="file" class="form-control" id="fichaSalud" name="fichaSalud" required formControlName="fichaSalud" />
+                                </div>
+
+                                <div class="col-md-6"> <!--Curso-->
+                                    <label for="cursoSuperior" class="form-label">Curso</label>
+                                    <select class="form-control" id="cursoSuperior" name="cursoSuperior" formControlName="curso" >
+                                        <option value="" disabled selected>Seleccione un Curso</option>
+                                        <option *ngFor="let curso of cursos" [value]="curso.nombre">{{curso.nombre}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-12" *ngIf="inscripcionForm.get('categoriaAlumno')?.value == 'Ciclo Basico'">
+                                <div class="col-md-6"> <!--Libreta de notas-->
+                                    <label for="libretaNotas" class="form-label">Libreta de Notas</label>
+                                    <input type="file" class="form-control" id="libretaNotas" name="libretaNotas" required formControlName="libretaNotas" />
+                                </div>
+
+                                <div class="col-md-6"> 
+                                    <label for="fichaSalud" class="form-label">Ficha de Salud</label>
+                                    <input type="file" class="form-control" id="fichaSalud" name="fichaSalud" required formControlName="fichaSalud" />
+                                </div>
+                            </div>
+
+                            <div class="col-12"> <!--Email-->
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="[EMAIL_ADDRESS]" required formControlName="email" />
+                            </div>
+
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2 mt-4">
+                            <button type="button" class="btn btn-secondary" (click)="limpiarFormulario()">Limpiar</button>
+                            <button type="submit" class="btn btn-primary" id="btn-enviar">Registrar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+

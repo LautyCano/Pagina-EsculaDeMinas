@@ -1,0 +1,51 @@
+<main>
+
+    <!-- Filtros -->
+    <section class="container py-5 text-center">
+        <input type="radio" id="all" name="category" value="all" checked (change)="onCategoryChange($event)">
+            <label for="all">Explorar Todo</label>
+        <input type="radio" id="jujuy-capital" name="category" value="jujuy-capital" (change)="onCategoryChange($event)">
+            <label for="jujuy-capital">Sede Jujuy Capital</label>
+        <input type="radio" id="la-quiuaca" name="category" value="la-quiuaca" (change)="onCategoryChange($event)">
+            <label for="la-quiuaca">Sede La Quiaca</label>
+        <input type="radio" id="yuto" name="category" value="yuto" (change)="onCategoryChange($event)">
+            <label for="yuto">Sede Yuto</label>
+    </section>
+
+    <section class="container py-5">
+        <!-- 1. Sede Jujuy Capital-->
+        <div class="card mb-4 blog-item"
+             [hidden]="!isVisible('jujuy-capital')">
+            <img class="card-img-top" [src]="sedes[0].imagen" alt="Obelisco y Avenida 9 de Julio, Buenos Aires">
+            <div class="card-body">
+                <h3 class="fw-bold">{{sedes[0].titulo}}</h3>
+                <div class="autor text-uppercase fw-medium">Por Lautaro Cano &nbsp;|&nbsp; 15 min de lectura</div>
+                <p class="card-text">{{sedes[0].descripcion}}</p>
+            </div>
+        </div>
+
+            <!-- 2. Sede La Quiaca -->
+            <div class="card mb-4 blog-item"
+             [hidden]="!isVisible('la-quiuaca')">
+                <img class="card-img-top" [src]="sedes[1].imagen"
+                    alt="Imagen de la escuela de sede La Quiaca">
+                <div class="card-body">
+                    <h3 class="fw-bold">{{sedes[1].titulo}}</h3>
+                    <div class="autor text-uppercase fw-medium">Por Lautaro Cano &nbsp;|&nbsp; 15 min de lectura</div>
+                    <p class="card-text">{{sedes[1].descripcion}}</p>
+                </div>
+            </div>
+
+            <!-- 3. Sede Yuto -->
+            <div class="card mb-4 blog-item"
+             [hidden]="!isVisible('yuto')">
+                <img class="card-img-top" [src]="sedes[2].imagen"
+                    alt="Imagen de la escuela de sede Yuto">
+                <div class="card-body">
+                    <h3 class="fw-bold">{{sedes[2].titulo}}</h3>
+                    <div class="autor text-uppercase fw-medium">Por Lautaro Cano &nbsp;|&nbsp; 15 min de lectura</div>
+                    <p class="card-text">{{sedes[2].descripcion}}</p>
+                </div>
+            </div>
+    </section>
+</main>

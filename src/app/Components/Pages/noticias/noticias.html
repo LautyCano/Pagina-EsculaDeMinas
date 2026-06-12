@@ -1,0 +1,64 @@
+<main>
+
+    <!-- Filtros -->
+    <section class="container py-5 text-center">
+        <input type="radio" id="all" name="category" value="all" checked (change)="onCategoryChange($event)">
+            <label for="all">Todas las Noticias</label>
+        <input type="radio" id="noticias" name="category" value="noticias" (change)="onCategoryChange($event)">
+            <label for="noticias">Noticias</label>
+        <input type="radio" id="noticiasAlumnos" name="category" value="noticiasAlumnos" (change)="onCategoryChange($event)">
+            <label for="noticiasAlumnos">Noticias Alumnos</label>
+    </section>
+
+    <!-- NOTICIAS -->
+    <section class="container py-3" [hidden]="!isVisible('noticias')">
+        <h2 class="seccion-titulo mb-4">Noticias</h2>
+
+        <!-- Primer noticia destacada (grande) -->
+        <div class="card mb-5" #revealEl *ngIf="noticias.length > 0">
+            <img class="card-img-top" [src]="noticias[0].imagen" [alt]="noticias[0].titulo">
+            <div class="card-body">
+                <span class="fw-bold text-uppercase categoria">Institucional</span>
+                <h3 class="fw-bold">{{ noticias[0].titulo }}</h3>
+                <div class="autor text-uppercase fw-medium">Escuela de Minas &nbsp;|&nbsp; Jujuy</div>
+                <p class="card-text">{{ noticias[0].descripcion }}</p>
+            </div>
+        </div>
+
+        <!-- Resto de noticias en grilla (2 columnas) -->
+        <div class="row row-cols-1 row-cols-md-2 gy-5 mb-5" #revealEl *ngIf="noticias.length > 1">
+            <div class="col" *ngFor="let noticia of noticias.slice(1)">
+                <div class="card blog-card h-100">
+                    <img class="card-img-top" [src]="noticia.imagen" [alt]="noticia.titulo">
+                    <div class="card-body">
+                        <span class="fw-bold text-uppercase categoria">Institucional</span>
+                        <h3 class="fw-bold">{{ noticia.titulo }}</h3>
+                        <div class="autor text-uppercase fw-medium">Escuela de Minas &nbsp;|&nbsp; Jujuy</div>
+                        <p class="card-text">{{ noticia.descripcion }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- noticias alumnos, Seria mejor cambiarlo a futuro a otra pagina que sea directamente del Centro de Estudiantes y que ahi publique el centro de estudiantes sus cosas y otra pagina que tenga los logros Academicos -->
+    <section class="container contenedor-distinciones" [hidden]="!isVisible('noticiasAlumnos')">
+        <h2 class="seccion-titulo mb-4 mt-5">Noticias Alumnos</h2>
+
+        <div class="card comentario mb-4" #revealEl *ngFor="let distincion of distinciones; let i = index">
+            <div class="row g-0 align-items-center">
+                <div class="col-md-3 text-center p-3">
+                    <img class="img-fluid distincion-img" [src]="distincion.imagen" [alt]="distincion.titulo">
+                </div>
+                <div class="col-md-9">
+                    <div class="card-body comentario-body">
+                        <span class="fw-bold text-uppercase categoria mb-2 d-block">Proyecto Nº {{ i + 1 }}</span>
+                        <h5 class="card-title comentario-titulo fw-bold">{{ distincion.titulo }}</h5>
+                        <p class="card-text comentario-texto">{{ distincion.descripcion }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>

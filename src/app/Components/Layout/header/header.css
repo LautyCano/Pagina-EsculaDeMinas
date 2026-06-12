@@ -1,0 +1,112 @@
+:host {
+    display: block;
+    grid-area: header;
+}
+
+.dark-mode-btn i {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.dark-mode-btn:hover i {
+    transform: rotate(20deg);
+}
+
+.container a {
+    padding-left: clamp(0.5rem, 2vw, 1.875rem);
+}
+
+
+.navbar-brand {
+    font-family: var(--font-title);
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    font-weight: 700;
+    color: var(--primary-color) !important;
+}
+
+.navbar {
+    position: sticky;
+    top: 0;
+    /* Esto permite que en modo oscuro sea negro traslúcido y en claro blanco traslúcido */
+    background-color: rgba(var(--navbar-bg-rgb, 255, 255, 255), 0.8) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    z-index: 1050;
+    /* Un poco más alto que el estándar de Bootstrap por si las dudas */
+    transition: all 0.3s ease;
+}
+
+/* Ajuste para el texto del navbar en el sticky */
+.nav-link {
+    color: var(--text-color) !important;
+}
+
+.nav-link:hover {
+    color: var(--secondary-color) !important;
+}
+
+/* Modo oscuro: fondo glassmorphism oscuro, sin recuadro */
+body.dark-mode .navbar {
+    background: rgba(18, 18, 18, 0.85) !important;
+    backdrop-filter: blur(10px);
+}
+
+/* Botón de Modo Oscuro */
+.dark-mode-btn {
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.dark-mode-btn:hover {
+    background: var(--surface-color);
+    color: var(--secondary-color);
+}
+
+/* ── Dark mode: dropdown ── */
+body.dark-mode .dropdown-menu {
+    background-color: #1e1e1e !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode .dropdown-item {
+    color: #e4e4e4 !important;
+}
+
+body.dark-mode .dropdown-item:hover,
+body.dark-mode .dropdown-item:focus {
+    background-color: rgba(74, 142, 240, 0.15) !important;
+    color: #4a8ef0 !important;
+}
+
+body.dark-mode .dropdown-header {
+    color: #888 !important;
+}
+
+body.dark-mode .dropdown-divider {
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Boton Hamburguesa hecho de forma manual */
+.custom-toggler {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 24px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.custom-toggler span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: var(--text-color, #1e1e1e);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+body.dark-mode .custom-toggler span {
+    background-color: #ffffff;
+}

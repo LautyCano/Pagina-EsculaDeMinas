@@ -1,0 +1,111 @@
+.home-container {
+  overflow: hidden;
+}
+
+.hero-section {
+  padding: 4rem 0;
+  position: relative;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-secondary-custom {
+  color: #55595c;
+}
+
+body.dark-mode .text-secondary-custom {
+  color: #a0a5a9;
+}
+
+.bg-surface-custom {
+  background-color: var(--surface-color);
+}
+
+.hover-up {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hover-up:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.hero-image-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.hero-bg-glow {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(55, 127, 230, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
+  border-radius: 50%;
+  z-index: -1;
+  filter: blur(20px);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  width: 100%;
+  max-width: 450px;
+}
+
+body.dark-mode .glass-card {
+  background: rgba(30, 30, 30, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.status-indicator {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.status-indicator.online {
+  background-color: #4cdf7a;
+  box-shadow: 0 0 8px #4cdf7a;
+}
+
+.uppercase-spaced {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.hover-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: var(--card-bg);
+}
+
+.hover-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important;
+}
+
+.icon-box {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.max-w-2xl {
+  max-width: 42rem;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}

@@ -1,0 +1,51 @@
+.tecnicatura-card {
+    transition: all 0.3s ease;
+    border: none !important;
+    /* Eliminamos bordes */
+    border-radius: 16px;
+    overflow: hidden;
+    background-color: var(--card-bg);
+}
+
+.tecnicatura-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15) !important;
+}
+
+.card-img-container {
+    transition: background-color 0.3s ease;
+}
+
+.tecnicatura-card:hover .card-img-container {
+    background-color: #e9ecef !important;
+}
+
+.card-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.highlight-box {
+  background: rgba(255, 255, 255, 0.08);
+  border-left: 4px solid #0dcaf0;
+  padding: 1.25rem;
+  margin-top: 1.5rem;
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.02);
+}
+
+body.dark-mode .highlight-box {
+  background: rgba(0, 0, 0, 0.2);
+  border-left: 4px solid #0d6efd;
+}
+
+.highlight-icon {
+  color: #0dcaf0;
+  font-size: 1.2rem;
+}
+body.dark-mode .highlight-icon {
+  color: #0d6efd;
+}
+
+.italic-text {
+  font-style: italic;
+}
