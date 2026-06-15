@@ -47,7 +47,7 @@
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" routerLink="/noticias">Comunicado</a></li>
                             <li><a class="dropdown-item" routerLink="/tramites">Trámites</a></li>
-                            <li><a class="dropdown-item" routerLink="/horarios">Horarios de Clases</a></li>
+                            <li><a class="dropdown-item" routerLink="/horarios-cursos">Horarios de Clases</a></li>
                             <li><a class="dropdown-item" routerLink="/practicas-prof">Practica Profesionalizante</a></li>
                             <li><a class="dropdown-item" routerLink="/acc">ACC</a></li>
                         </ul>
@@ -158,6 +158,7 @@
                 @if (this.usuario && (this.usuario.rol == "admin" || this.usuario.rol == "administradorResponsableComunicacion")) {
                     <button class="btn btn-primary" (click)="cambiarEstadoInscripcion()">Inscripciones</button>
                     <button class="btn btn-primary" (click)="administrarFechas()">Calendario</button>
+                    <button class="btn btn-primary" (click)="administrarHorarios()">Horarios</button>
                 }
                 <p class="small text-center text-muted fst-italic">En caso de estar editando una publicación, no podra seleccionar otra publicacion para editar hasta que guarde o cancele la edición.</p>
             </div>

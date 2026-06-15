@@ -10,6 +10,7 @@ import { Login } from './Components/Pages/login/login';
 import { authGuard } from './Services/auth-service-guard';
 import { PracticasProf } from './Components/Pages/practicas-prof/practicas-prof';
 import { Calendario } from './Components/Pages/calendario/calendario';
+import { HorariosCursos } from './Components/Pages/horarios-cursos/horarios-cursos';
 
 export const routes: Routes = [
     { path: '', component: Home },
@@ -22,5 +23,6 @@ export const routes: Routes = [
     { path: 'publicaciones', component: Publicaciones, canActivate: [authGuard] },
     { path: 'login', component: Login},
     { path: 'practicas-prof', component: PracticasProf },
-    { path: 'calendario', component: Calendario }
+    { path: 'calendario', component: Calendario },
+    { path: 'horarios-cursos', component: HorariosCursos }
 ];
