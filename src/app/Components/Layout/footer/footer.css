@@ -43,13 +43,17 @@
 
 .btn-submit {
     padding: 0.75rem 1.5rem;
-    background: var(--secondary-color);
+    background: var(--primary-color);
     color: #fff;
     border: none;
     border-radius: 0.25rem;
     font-weight: 600;
     cursor: pointer;
     transition: 0.3s;
+}
+
+.btn-submit:hover {
+    background: var(--secondary-color);
 }
 
 .btn-submit:disabled {
@@ -67,32 +71,32 @@
 }
 
 .email-feedback.valid {
-    color: #4cdf7a;
+    color: #a2e8b4;
 }
 
 .email-feedback.invalid {
-    color: #ff9f43;
+    color: #ffcc80;
 }
 
 /* Borde del input según estado */
 .subscribe-form input.input-valid {
-    border-color: #4cdf7a;
-    box-shadow: 0 0 0 2px rgba(76, 223, 122, 0.25);
+    border-color: #a2e8b4;
+    box-shadow: 0 0 0 2px rgba(162, 232, 180, 0.25);
 }
 
 .subscribe-form input.input-invalid {
-    border-color: #ff9f43;
-    box-shadow: 0 0 0 2px rgba(255, 159, 67, 0.25);
+    border-color: #ffcc80;
+    box-shadow: 0 0 0 2px rgba(255, 204, 128, 0.25);
 }
 
 /* Mensaje de suscripción exitosa */
 .subscribe-success {
     margin-top: 0.5rem;
     padding: 0.5rem 0.75rem;
-    background: rgba(76, 223, 122, 0.15);
-    border: 1px solid rgba(76, 223, 122, 0.4);
+    background: rgba(162, 232, 180, 0.25);
+    border: 1px solid rgba(162, 232, 180, 0.4);
     border-radius: 0.25rem;
-    color: #4cdf7a;
+    color: #a2e8b4;
     font-size: 0.875rem;
     font-weight: 500;
 }

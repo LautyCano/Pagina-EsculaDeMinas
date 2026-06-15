@@ -6,11 +6,20 @@ import { Injectable } from "@angular/core";
 export class GestionInscripcion {
     alumnos: any[] = [];
     ingresantes: any[] = [];
+    estadoInscripcion: boolean = false; // Para validar si estan abiertas las inscripciones
 
     constructor() {
         // Inicializamos el arreglo de alumnos
         this.alumnos = [];
         this.ingresantes = [];
+    }
+
+    getEstadoInscripcion(){
+        return this.estadoInscripcion;
+    }
+    
+    cambiarEstadoInscripcion(){
+        this.estadoInscripcion = !this.estadoInscripcion;
     }
     
     // Agrega el alumno al array

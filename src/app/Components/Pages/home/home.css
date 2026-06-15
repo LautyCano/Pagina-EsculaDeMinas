@@ -8,7 +8,7 @@
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  background: linear-gradient(135deg, var(--primary-color) 0%, #da8080 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -46,10 +46,14 @@ body.dark-mode .text-secondary-custom {
   position: absolute;
   width: 300px;
   height: 300px;
-  background: radial-gradient(circle, rgba(55, 127, 230, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
+  background: radial-gradient(circle, rgba(158, 61, 61, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
   border-radius: 50%;
   z-index: -1;
   filter: blur(20px);
+}
+
+body.dark-mode .hero-bg-glow {
+  background: radial-gradient(circle, rgba(218, 128, 128, 0.08) 0%, rgba(0, 0, 0, 0) 70%);
 }
 
 .glass-card {
@@ -62,7 +66,7 @@ body.dark-mode .text-secondary-custom {
 }
 
 body.dark-mode .glass-card {
-  background: rgba(30, 30, 30, 0.7);
+  background: rgba(34, 31, 31, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
@@ -74,8 +78,8 @@ body.dark-mode .glass-card {
 }
 
 .status-indicator.online {
-  background-color: #4cdf7a;
-  box-shadow: 0 0 8px #4cdf7a;
+  background-color: #a2e8b4;
+  box-shadow: 0 0 8px #a2e8b4;
 }
 
 .uppercase-spaced {

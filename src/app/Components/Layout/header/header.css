@@ -76,8 +76,8 @@ body.dark-mode .dropdown-item {
 
 body.dark-mode .dropdown-item:hover,
 body.dark-mode .dropdown-item:focus {
-    background-color: rgba(74, 142, 240, 0.15) !important;
-    color: #4a8ef0 !important;
+    background-color: rgba(218, 128, 128, 0.15) !important;
+    color: var(--primary-color) !important;
 }
 
 body.dark-mode .dropdown-header {

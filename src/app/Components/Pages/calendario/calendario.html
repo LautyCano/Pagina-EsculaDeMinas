@@ -1,0 +1,233 @@
+<main class="container py-4">
+  <div class="calendario">
+     <!-- ENCABEZADO: Navegación entre meses Botones para ir al mes anterior/siguiente-->
+    <div class="calendario-header">
+      <button class="btn-mes" (click)="mesAnterior()" aria-label="Mes anterior">
+        <i class="bi bi-chevron-left"></i>
+      </button>
+      <h2 class="titulo-mes">{{ tituloMes() }}</h2>
+      <button class="btn-mes" (click)="mesSiguiente()" aria-label="Mes siguiente">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+
+    <!-- GRILLA DEL CALENDARIO-->
+    <div class="calendario-grilla">
+      <!-- Encabezado con nombres de días -->
+      <div class="fila-dias">
+        <div class="celda-encabezado" *ngFor="let nombre of diasSemana()"> {{ nombre }} </div>
+      </div>
+
+      <!-- Grilla de días (7 columnas) 
+       Recorre los dias del mes y muestra los dias en null del mes anterior de manera dinamica
+      despues empieza a comparar los dias del mes actual y va marcando segun el tipo de evento
+      si el dia no existe marca un circulo blanco
+      si el dia es el dia actual marca un circulo azul
+      si el dia tiene un evento marca un circulo rojo
+      -->
+      <div class="grilla-dias">
+        <div class="celda-dia" *ngFor="let dia of diasDelMes()" [class.vacio]="dia === null" 
+          [class.hoy]="dia !== null && esHoy(dia)" [class.seleccionado]="dia !== null && diaSeleccionado() === dia" 
+          [class.tiene-evento]="dia !== null && tieneEventos(dia)" 
+          [class.feriado]="dia !== null && tipoEvento(dia) === 'feriado'" 
+          [class.academico]="dia !== null && tipoEvento(dia) === 'academico'" 
+          [class.especial]="dia !== null && tipoEvento(dia) === 'especial'"
+          (click)="dia !== null && seleccionarDia(dia)" 
+        >
+          <span class="numero-dia">{{ dia }}</span> 
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL DE EVENTOS (abajo del calendario) Muestra los eventos del día seleccionado. -->
+    <div class="panel-eventos" *ngIf="diaSeleccionado() !== null">
+      <h3 class="panel-titulo">
+        Eventos del {{ diaSeleccionado() }} de {{ nombresMeses()[mesActual()] }} de {{ anioActual() }}
+      </h3>
+
+      <!-- Si el día no tiene eventos -->
+      <p class="sin-eventos" *ngIf="eventosDelDia().length === 0">
+        No hay eventos registrados para esta fecha.
+      </p>
+      <!-- Lista de eventos del día -->
+      <div class="lista-eventos" *ngIf="eventosDelDia().length > 0">
+        <div
+          class="tarjeta-evento" 
+          *ngFor="let evento of eventosDelDia()" 
+          [class.con-feriado]="evento.tipo === 'feriado'" 
+          [class.con-academico]="evento.tipo === 'academico'" 
+          [class.con-especial]="evento.tipo === 'especial'"
+        >
+        <!-- muestra el icono del evento segun el tipo -->
+          <div class="evento-icono">
+            <i class="bi"
+              [class.bi-calendar-event]="evento.tipo === 'academico'"
+              [class.bi-calendar-x]="evento.tipo === 'feriado'"
+              [class.bi-calendar-heart]="evento.tipo === 'especial'"> 
+            </i>
+          </div>
+          <div class="evento-info">
+            <strong class="evento-titulo">{{ evento.titulo }}</strong>
+            <p class="evento-desc" *ngIf="evento.descripcion">{{ evento.descripcion }}</p>
+          </div>
+          @if(this.usuario && (this.usuario.rol == "admin" || this.usuario.rol == "administradorResponsableComunicacion")){
+            <div class="evento-acciones d-flex flex-column gap-1">
+              <button class="btn btn-outline-primary btn-sm" type="button" title="Editar"
+                (click)="editarEvento(evento)">
+                <i class="bi bi-pencil"></i>
+              </button>
+              <button class="btn btn-outline-danger btn-sm" type="button" title="Eliminar"
+                (click)="eliminarFecha(evento)">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+      <!-- Administrar fechas -->
+      @if(this.usuario && (this.usuario.rol == "admin" || this.usuario.rol == "administradorResponsableComunicacion")){
+        <div class="d-flex justify-content-start gap-2 mb-4">
+          <button class="btn btn-outline-success border-0 p-2 d-flex align-items-center justify-content-center"
+          type="button" aria-label="Agregar Fechas" data-bs-toggle="modal" data-bs-target="#agregarFechas"> Agregar Fechas</button>
+        </div>
+      }
+    <!-- Mensaje inicial (sin día seleccionado) -->
+    <div class="panel-eventos selecciona-msg" *ngIf="diaSeleccionado() === null">
+      <p class="text-muted">Hacé click en un día del calendario para ver sus eventos.</p>
+    </div>
+  </div>
+</main>
+
+<!-- MODAL PARA AGREGAR FECHAS -->
+<div class="modal fade" id="agregarFechas" tabindex="-1" aria-labelledby="agregarFechasLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+        
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="agregarFechasLabel">Agregar Fechas</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="agregarFechas">
+                        <div class="mb-3 text-start">
+                            <label for="add-fecha" class="col-form-label fw-medium">Fecha:</label>
+                            <input type="date" class="form-control bg-secondary text-white border-0" id="add-fecha" required>
+                        </div>
+
+                        <div class="mb-3 text-start">
+                            <label for="add-titulo" class="col-form-label fw-medium">Titulo:</label>
+                            <input type="text" class="form-control bg-secondary text-white border-0" id="add-titulo" placeholder="titulo del evento" required>
+                        </div>
+
+                        <div class="mb-3 text-start">
+                            <label for="add-descripcion" class="col-form-label fw-medium">Descripción:</label>
+                            <input type="text" class="form-control bg-secondary text-white border-0" id="add-descripcion" placeholder="descripción (opcional)">
+                        </div>
+
+                        <div class="mb-3 text-start">
+                            <label for="add-tipo" class="col-form-label fw-medium">Tipo:</label>
+                            <select class="form-select bg-secondary text-white border-0" id="add-tipo" required>
+                                <option value="">Seleccione un tipo</option>
+                                <option value="feriado">Feriado</option>
+                                <option value="academico">Académico</option>
+                                <option value="especial">Especial</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary px-4" (click)="addFecha()" data-bs-dismiss="modal">Registrar</button>
+                </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL PARA EDITAR FECHAS -->
+<div class="modal fade" id="editarFechas" tabindex="-1" aria-labelledby="editarFechasLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+        
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="editarFechasLabel">Editar Fechas</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="editarFechas">
+                        <div class="mb-3 text-start">
+                            <label for="edit-fecha" class="col-form-label fw-medium">Fecha:</label>
+                            <input type="date" class="form-control bg-secondary text-white border-0" id="edit-fecha" required>
+                        </div>
+
+                        <div class="mb-3 text-start">
+                            <label for="edit-titulo" class="col-form-label fw-medium">Titulo:</label>
+                            <input type="text" class="form-control bg-secondary text-white border-0" id="edit-titulo" required>
+                        </div>
+
+                        <div class="mb-3 text-start">
+                            <label for="edit-descripcion" class="col-form-label fw-medium">Descripción:</label>
+                            <input type="text" class="form-control bg-secondary text-white border-0" id="edit-descripcion">
+                        </div>
+
+                        <div class="mb-3 text-start">
+                            <label for="edit-tipo" class="col-form-label fw-medium">Tipo:</label>
+                            <select class="form-select bg-secondary text-white border-0" id="edit-tipo" required>
+                                <option value="">Seleccione un tipo</option>
+                                <option value="feriado">Feriado</option>
+                                <option value="academico">Académico</option>
+                                <option value="especial">Especial</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary px-4" (click)="editarFecha()" data-bs-dismiss="modal">Editar</button>
+                </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast de agregar -->
+<div class="toast" id="ToastAdd" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
+  <div class="toast-header">
+        <i class="bi bi-check-circle-fill text-success me-2"></i>
+        <strong class="me-auto">Evento Registrado</strong>
+        <small class="text-body-secondary">Hace un momento</small>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+  </div>
+  <div class="toast-body">
+        ¡Se registro de manera exitosa el evento!
+  </div>
+</div>
+
+<!-- Toast de Editar -->
+<div class="toast" id="ToastEdit" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
+  <div class="toast-header">
+        <i class="bi bi-check-circle-fill text-success me-2"></i>
+        <strong class="me-auto">Evento Editado</strong>
+        <small class="text-body-secondary">Hace un momento</small>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+  </div>
+  <div class="toast-body">
+        ¡Se edito de manera exitosa el evento!
+  </div>
+</div>
+
+<!-- Toast de Eliminar -->
+<div class="toast" id="ToastRemove" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
+  <div class="toast-header">
+        <i class="bi bi-check-circle-fill text-success me-2"></i>
+        <strong class="me-auto">Evento Eliminado</strong>
+        <small class="text-body-secondary">Hace un momento</small>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+  </div>
+  <div class="toast-body">
+        ¡Se elimino de manera exitosa el evento!
+  </div>
+</div>
