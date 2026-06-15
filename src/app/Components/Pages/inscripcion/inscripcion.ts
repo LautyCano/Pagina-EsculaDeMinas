@@ -71,6 +71,10 @@ export class Inscripcion implements OnInit {
     this.verificacionForm();
   }
 
+  verificacionEstadoInscripcion(){
+    return this.gestionService.getEstadoInscripcion();
+  }
+
   verificacionForm() {
     // — INGRESANTE —
     if (this.inscripcionForm.value.categoriaAlumno == 'Ingresante'

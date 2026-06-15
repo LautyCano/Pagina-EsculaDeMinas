@@ -7,6 +7,7 @@ import { Injectable } from '@angular/core';
 export class SGestionusuarios {
 
     usuario: any = null;
+    usuarioGuardar: any = [];
     users = [
       {
         dni: '12345678',
@@ -63,6 +64,7 @@ export class SGestionusuarios {
 
     verificarUsuario(nombre: string, contra: string) {
         this.usuario = this.users.find(a => a.nombre === nombre && a.password === contra);
+        this.usuarioGuardar = this.usuario;
         return this.usuario;
     }
     

@@ -32,6 +32,7 @@ input[type="radio"]:focus-visible + label {
     outline: 3px solid var(--secondary-color);
     outline-offset: 2px;
 }
+
 /* Dar diseño de botón a las etiquetas (Labels) */
 label {
     display: inline-block; /* Esto hace que se muestren en línea */
@@ -61,8 +62,9 @@ input[type="radio"]:checked + label {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-.card, .blog-card{
-    border-bottom: #1a4b8f 5px solid;
+/* Borde inferior adaptado al Rojo Carmesí de la escuela */
+.card, .blog-card {
+    border-bottom: var(--primary-color) 5px solid;
     border-top: none;
     border-left: none;
     border-right: none;
@@ -73,7 +75,7 @@ input[type="radio"]:checked + label {
 .blog-card:hover {
     transform: scale(1.03);
     z-index: 10;
-    box-shadow: 0 10px 20px rgba(0, 50, 125, 0.199) !important;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15) !important; /* Sombra neutra */
 }
 
 .card .card-img-top {
@@ -86,10 +88,11 @@ input[type="radio"]:checked + label {
     object-fit: cover;
 }
 
+/* Sincronizado con el color principal */
 .categoria {
     font-size: .70rem;
     letter-spacing: 2.5px;
-    color: #377fe6;
+    color: var(--primary-color);
     font-family: var(--font-text);
 }
 
@@ -109,9 +112,11 @@ input[type="radio"]:checked + label {
     font-family: var(--font-text);
 }
 
+/* Corregido para que use la variable global de texto y sea legible en modo oscuro */
 .card-text {
     font-family: var(--font-title);
-    color: rgb(90, 90, 90) ;
+    color: var(--text-color);
+    opacity: 0.85;
     font-size: 15px;
     padding: 15px;
     white-space: pre-line; 

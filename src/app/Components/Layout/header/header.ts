@@ -4,6 +4,7 @@ import { CommonModule, DOCUMENT } from '@angular/common';
 import { Inject } from '@angular/core';
 import { SGestionusuarios } from '../../../Services/usuarios-service';
 import { NoticiasServices } from '../../../Services/noticias-service';
+import { GestionInscripcion } from '../../../Services/inscripcion-service';
 
 @Component({
   selector: 'app-header',
@@ -24,7 +25,8 @@ export class Header {
     @Inject(DOCUMENT) private document: Document,
     public router: Router,
     private serviceUsuarios: SGestionusuarios,
-    private noticiasService: NoticiasServices
+    private noticiasService: NoticiasServices,
+    private gestionInscripcion: GestionInscripcion
   ) {
     this.noticias = this.noticiasService.getNoticias();
     this.distinciones = this.noticiasService.getDistinciones();
@@ -84,7 +86,20 @@ export class Header {
     toastBootstrap.show()
     this.router.navigate(['/home']);
   }
+
+  cambiarEstadoInscripcion(){
+    this.gestionInscripcion.cambiarEstadoInscripcion();
+  }
+
+  getEstadoInscripcion(){
+    return this.gestionInscripcion.getEstadoInscripcion();
+  }
   
+//*******************************Calendario******************************
+  administrarFechas(){
+    this.router.navigate(['/calendario']);
+  }
+
 //****************************Modal del tema dark y light******************************
   toggleDarkMode() {
     this.isDarkMode = !this.isDarkMode;

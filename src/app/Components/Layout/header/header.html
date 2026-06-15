@@ -2,6 +2,7 @@
     <nav class="navbar navbar-expand-lg" aria-label="Navegación principal" bg-body-tertiary>
         <div class="container">
             <!-- Logo de la agencia -->
+             <img src="icon-edm.2.png" alt="Logo" width="65" height="65">
             <a routerLink="/home" class="navbar-brand">Escuela de Minas</a>
 
             <!-- Botón toggle para dispositivos móviles -->
@@ -21,21 +22,43 @@
                     <li class="nav-item">
                         <a class="nav-link" routerLink="/home">Inicio</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="/noticias">Noticias</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Institución
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" routerLink="/historia">Historia</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Académica
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" routerLink="/carreras">Tecnicaturas</a></li>
+                            <li><a class="dropdown-item" routerLink="/calendario">Calendario</a></li>
+                            <li *ngIf="getEstadoInscripcion() == true"><a class="dropdown-item" routerLink="/inscripcion">Inscripciones</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Estudiante
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" routerLink="/noticias">Comunicado</a></li>
+                            <li><a class="dropdown-item" routerLink="/tramites">Trámites</a></li>
+                            <li><a class="dropdown-item" routerLink="/horarios">Horarios de Clases</a></li>
+                            <li><a class="dropdown-item" routerLink="/practicas-prof">Practica Profesionalizante</a></li>
+                            <li><a class="dropdown-item" routerLink="/acc">ACC</a></li>
+                        </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" routerLink="/historia">Historia</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="/carreras">Carreras</a>
+                        <a class="nav-link" routerLink="/biblioteca">Biblioteca</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" routerLink="/sedes">Sedes</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="/inscripcion">Inscripciones</a>
-                    </li>
+                    
                 </ul>
 
                 <!-- Botones de acción del navbar -->
@@ -130,6 +153,11 @@
                         </button>
                     </div>
                 </div>
+                }
+
+                @if (this.usuario && (this.usuario.rol == "admin" || this.usuario.rol == "administradorResponsableComunicacion")) {
+                    <button class="btn btn-primary" (click)="cambiarEstadoInscripcion()">Inscripciones</button>
+                    <button class="btn btn-primary" (click)="administrarFechas()">Calendario</button>
                 }
                 <p class="small text-center text-muted fst-italic">En caso de estar editando una publicación, no podra seleccionar otra publicacion para editar hasta que guarde o cancele la edición.</p>
             </div>

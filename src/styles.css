@@ -1,14 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Noto+Serif:wght@600;700&display=swap');
 
 :root {
-    --primary-color: #1a4b8f;
-    --secondary-color: #377fe6;
-    --text-gray: #8a8c8f;
-    --bg-color: #ffffff;
+    --primary-color: #9e3d3d;
+    --secondary-color: #7f2d2d;
+    --text-gray: #7a6652;
+    --bg-color: #fdfcf5;
     --text-color: #333333;
-    --surface-color: #f8f9fa;
+    --surface-color: #f0ede6;
     --card-bg: #ffffff;
-    --footer-bg: #1a4b8f;
+    --footer-bg: #2b2b2b;
     --font-title: 'Noto Serif', serif;
     --font-text: 'Manrope', sans-serif;
 }
@@ -37,12 +37,11 @@ body.dark-mode .card {
 body.dark-mode {
     --bg-color: #121212;
     --text-color: #e4e4e4;
-    --text-muted-custom: #117fec;
+    --text-muted-custom:#da8080;
     --surface-color: #1e1e1e;
     --card-bg: #221f1f;
-    --primary-color: #4a8ef0;
-    --footer-bg: #0d2647;
-
+    --primary-color: #da8080;
+    --footer-bg: #1a1a1a;
 }
 
 
@@ -69,12 +68,7 @@ body {
     transition: background-color 0.3s, color 0.3s;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1,h2,h3,h4,h5,h6 {
     font-family: var(--font-title);
     color: var(--primary-color);
     margin-bottom: 1rem;
@@ -83,7 +77,6 @@ h6 {
 .card-title {
     color: var(--primary-color) !important;
 }
-
 
 /* Opcional: Títulos generales dentro del main (fuera del hero) */
 main h1:not(.hero-title),
@@ -124,19 +117,16 @@ body.dark-mode h6 {
 
 body.dark-mode .dropdown-menu {
     background-color: var(--card-bg) !important;
-    /* Usamos el gris oscuro de tus cards */
     border-color: rgba(255, 255, 255, 0.1);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 body.dark-mode .dropdown-item {
     color: var(--text-color) !important;
-    /* Texto claro */
 }
 
 body.dark-mode .dropdown-item:hover {
     background-color: var(--primary-color) !important;
-    /* Color azul al pasar el mouse */
     color: #ffffff !important;
 }
 
