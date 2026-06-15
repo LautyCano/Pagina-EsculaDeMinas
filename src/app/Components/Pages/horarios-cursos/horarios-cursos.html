@@ -1,0 +1,190 @@
+<div class="container my-5"> 
+    <div class="row justify-content-center"> 
+        <div class="col-12 col-md-10 col-lg-8"> 
+            @if (this.usuario && (this.usuario.rol == "admin" || this.usuario.rol == "administradorResponsableComunicacion")) {
+                <div class="card card-custom">
+                    <div class="card-header card-header-custom text-center py-4">
+                        <h3 class="mb-0">Registro de Horarios y Materias</h3>
+                    </div>
+
+                    <div class="card-body p-4">
+                        <form [formGroup]="horarioForm" (ngSubmit)="onSubmit()">
+                            
+                            <h5 class="text-secondary mb-3">Información del Curso</h5>
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-6">
+                                    <label for="curso" class="form-label">Curso</label>
+                                    <input type="text" class="form-control" id="curso" placeholder="3ro Informatica" formControlName="curso" />
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="turno" class="form-label">Turno</label>
+                                    <select class="form-control" id="turno" formControlName="turno">
+                                        <option value="" disabled selected>Seleccione un turno</option>
+                                        <option *ngFor="let turno of horarioService.getTurnos()" [value]="turno">{{turno}}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <hr class="my-4" style="opacity: 0.15;">
+
+                            <h5 class="text-secondary mb-3">Agregar Materias al Curso</h5>
+                            
+                            <div class="p-3 bg-light rounded border mb-3">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Nombre de la materia</label>
+                                        <input type="text" class="form-control" formControlName="tempNombre" placeholder="Programación" />
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label">Profesor</label>
+                                        <input type="text" class="form-control" formControlName="tempProfesor" placeholder="Prof. Juan Pérez" />
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label class="form-label">Primer Día</label>
+                                        <select class="form-control" formControlName="tempDia1">
+                                            <option value="" disabled selected>Seleccione un día</option>
+                                            <option *ngFor="let dia of horarioService.getDias()" [value]="dia">{{dia}}</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label class="form-label">Hora 1</label>
+                                        <input type="text" class="form-control" formControlName="tempHora1" placeholder="18:30 - 21:30" />
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label class="form-label">Segundo Día</label>
+                                        <select class="form-control" formControlName="tempDia2">
+                                            <option value="" disabled selected>Seleccione un día</option>
+                                            <option *ngFor="let dia of horarioService.getDias()" [value]="dia">{{dia}}</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <label class="form-label">Hora 2</label>
+                                        <input type="text" class="form-control" formControlName="tempHora2" placeholder="18:30 - 21:30" />
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label">Modalidad</label>
+                                        <select class="form-control" formControlName="tempModalidad">
+                                            <option value="" disabled selected>Seleccione una modalidad</option>
+                                            <option *ngFor="let mod of horarioService.getModalidades()" [value]="mod">{{mod}}</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-12 d-flex justify-content-end mt-3">
+                                        <button type="button" class="btn btn-outline-success" (click)="agregarMateriaALista()">
+                                            <i class="bi bi-plus-circle me-1"></i> Añadir Materia a la Lista
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-4" *ngIf="materiasTemporales.length > 0">
+                                <span class="text-muted small d-block mb-2">Materias añadidas a este curso:</span>
+                                <ul class="list-group">
+                                    <li *ngFor="let mat of materiasTemporales; let i = index" class="list-group-item d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <strong>{{ mat.nombre }}</strong> - {{ mat.profesor }} 
+                                            <span class="badge bg-secondary ms-2">{{ mat.modalidad }}</span>
+                                            <small class="text-muted d-block">{{ mat.dia1 }} ({{ mat.hora1 }}) @if(mat.dia2){ / {{ mat.dia2 }} ({{ mat.hora2 }}) }</small>
+                                        </div>
+                                        <button type="button" class="btn btn-sm btn-outline-danger border-0" (click)="removerMateriaDeLista(i)">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <hr class="my-4" style="opacity: 0.15;">
+
+                            <div class="d-flex justify-content-end gap-2">
+                                <button type="button" class="btn btn-secondary" (click)="limpiarFormulario()">Limpiar Todo</button>
+                                <button type="submit" class="btn btn-primary" [disabled]="horarioForm.invalid || materiasTemporales.length === 0">
+                                    Registrar Horario Completo
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            }
+
+            <div class="mt-5">
+                @for(horario of horariosCursos; track horario.id) {
+                    <div class="mb-5 bg-white p-4 rounded shadow-sm border">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="mb-0 fw-bold">Curso: {{horario.curso}}</h4>
+                            @if(this.usuario && (this.usuario.rol == "admin" || this.usuario.rol == "administradorResponsableComunicacion")){
+                                <button class="btn btn-primary" (click)="editHorario(horario)">Editar</button>
+                                <button class="btn btn-danger" (click)="removeHorario(horario.id)">Eliminar</button>
+                            }
+                            <span class="btn btn-outline-danger">Turno: {{horario.turno}}</span>
+                        </div>
+                        
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover align-middle mb-0">
+                                <thead class="table-dark text-center">
+                                    <tr>
+                                        <th style="width: 20%;">Materia / Prof.</th>
+                                        <th style="width: 16%;">Lunes</th>
+                                        <th style="width: 16%;">Martes</th>
+                                        <th style="width: 16%;">Miércoles</th>
+                                        <th style="width: 16%;">Jueves</th>
+                                        <th style="width: 16%;">Viernes</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for(materia of horario.materias; track materia.id) {
+                                        <tr>
+                                            <td>
+                                                <div class="fw-bold text-dark">{{materia.nombre}}</div>
+                                                <div class="text-muted small">{{materia.profesor}}</div>
+                                                <span class="badge bg-light text-secondary border mt-1" style="font-size: 0.75rem;">
+                                                    {{materia.modalidad}}
+                                                </span>
+                                            </td>
+
+                                            <td class="text-center">
+                                                @if(materia.dia1 === 'Lunes') { <span class="badge bg-success-subtle text-success p-2 d-block">{{materia.hora1}}</span> }
+                                                @if(materia.dia2 === 'Lunes') { <span class="badge bg-success-subtle text-success p-2 d-block mt-1">{{materia.hora2}}</span> }
+                                            </td>
+
+                                            <td class="text-center">
+                                                @if(materia.dia1 === 'Martes') { <span class="badge bg-success-subtle text-success p-2 d-block">{{materia.hora1}}</span> }
+                                                @if(materia.dia2 === 'Martes') { <span class="badge bg-success-subtle text-success p-2 d-block mt-1">{{materia.hora2}}</span> }
+                                            </td>
+
+                                            <td class="text-center">
+                                                @if(materia.dia1 === 'Miercoles') { <span class="badge bg-success-subtle text-success p-2 d-block">{{materia.hora1}}</span> }
+                                                @if(materia.dia2 === 'Miercoles') { <span class="badge bg-success-subtle text-success p-2 d-block mt-1">{{materia.hora2}}</span> }
+                                            </td>
+
+                                            <td class="text-center">
+                                                @if(materia.dia1 === 'Jueves') { <span class="badge bg-success-subtle text-success p-2 d-block">{{materia.hora1}}</span> }
+                                                @if(materia.dia2 === 'Jueves') { <span class="badge bg-success-subtle text-success p-2 d-block mt-1">{{materia.hora2}}</span> }
+                                            </td>
+
+                                            <td class="text-center">
+                                                @if(materia.dia1 === 'Viernes') { <span class="badge bg-success-subtle text-success p-2 d-block">{{materia.hora1}}</span> }
+                                                @if(materia.dia2 === 'Viernes') { <span class="badge bg-success-subtle text-success p-2 d-block mt-1">{{materia.hora2}}</span> }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                } @empty {
+                    <div class="alert alert-info text-center py-4">
+                        <i class="bi bi-info-circle me-2"></i> No hay horarios registrados aún.
+                    </div>
+                }
+            </div>
+                 
+        </div>
+    </div>
+</div>

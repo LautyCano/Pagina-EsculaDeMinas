@@ -100,6 +100,9 @@ export class Header {
     this.router.navigate(['/calendario']);
   }
 
+  administrarHorarios() {
+    this.router.navigate(['/horarios-cursos']);
+  }
 //****************************Modal del tema dark y light******************************
   toggleDarkMode() {
     this.isDarkMode = !this.isDarkMode;
