@@ -1,61 +1,107 @@
-<div class="container my-5"> <!--Contenedor principal-->
-    <div class="row justify-content-center"> <!--Centra las columnas-->
-        <div class="col-12 col-md-10 col-lg-8"> <!--Columna de ancho variable-->
-            
-            <div class="card card-custom"> <!--Tarjeta con borde redondeado-->
-                <form [formGroup]="noticiaForm" (ngSubmit)="onSubmit()">
-                <div class="card-header card-header-custom text-center py-4">
-                    <h3 class="mb-0" *ngIf="esEdicion">Editar Publicacion</h3> <!--Título del formulario-->
-                    <h3 class="mb-0" *ngIf="!esEdicion">Creacion de la Publicacion</h3> <!--Título del formulario-->
-                </div>
+<div class="container my-5"> <div class="row justify-content-center"> <div class="col-12 col-md-10 col-lg-8"> <div class="card card-custom shadow"> <form [formGroup]="noticiaForm" (ngSubmit)="onSubmit()">
+                    <div class="card-header card-header-custom text-center py-4 bg-light border-bottom">
+                        <h3 class="mb-0 fw-bold" *ngIf="esEdicion">Editar Publicación</h3>
+                        <h3 class="mb-0 fw-bold" *ngIf="!esEdicion && !esPeticion">Creación de la Publicación</h3>
+                        <h3 class="mb-0 fw-bold" *ngIf="!esEdicion && esPeticion">Creación de la Petición</h3>
+                    </div>
 
-                <div class="card-body p-4">
-                    <!--Formulario-->
-                        <div class="row g-3"> <!--Filas y columnas-->
-                            <div class="col-12" *ngIf="esDistincion == true"><!-- ngIf: Es como un if donde pregunta si categoriaAlumno tienen algo cargado. Si es asi muestra ciertos parametros-->
-                                <div class="col-12">
-                                    <label for="titulo" class="form-label">Titulo</label>
-                                    <input type="text" class="form-control" id="titulo" name="titulo" required formControlName="titulo" />
-                                </div>
-                                
-                                <div class="col-md-6">
-                                    <label for="imagen" class="form-label">Imagen</label>
-                                    <input type="file" class="form-control" id="imagen" name="imagen"  formControlName="imagen" />
-                                </div>
-
-                                <div class="col-md-12">
-                                    <label for="descripcion" class="form-label">Descripcion</label>
-                                    <textarea class="form-control" id="descripcion" name="descripcion" rows="5" required formControlName="descripcion"></textarea>
-                                </div>
+                    <div class="card-body p-4">
+                        <div class="row g-3"> 
+                            <div class="col-12">
+                                <label for="titulo" class="form-label fw-medium">Título</label>
+                                <input type="text" class="form-control" id="titulo" placeholder="Escriba el título aquí" formControlName="titulo" />
+                            </div>
+                            
+                            <div class="col-12">
+                                <label for="imagen" class="form-label fw-medium">Imagen</label>
+                                <input type="file" class="form-control" id="imagen" formControlName="imagen" />
                             </div>
 
-                            <div class="col-12" *ngIf="esDistincion == false">
-                                 <div class="col-md-12">
-                                    <label for="titulo" class="form-label">Titulo</label>
-                                    <input type="text" class="form-control" id="titulo" name="titulo" required formControlName="titulo" />
-                                </div>
+                            <div class="col-12">
+                                <label for="descripcion" class="form-label fw-medium">Descripción</label>
+                                <textarea class="form-control" id="descripcion" rows="4" placeholder="Detalle el contenido..." formControlName="descripcion"></textarea>
+                            </div>
 
-                                <div class="col-6"> 
-                                    <label for="imagen" class="form-label">Imagen</label>
-                                    <input type="file" class="form-control" id="imagen" name="imagen" required formControlName="imagen" />
-                                </div>
+                            <div class="col-12">
+                                <label for="esDistincion" class="form-label fw-medium">Tipo de publicación</label>
+                                <select class="form-select" id="esDistincion" formControlName="esDistincion">
+                                    <option value="">Seleccione una opción</option>
+                                    <option value="noticia">Noticia</option>
+                                    <option value="distincion">Distincion</option>
+                                </select>
+                            </div>
 
-                                <div class="col-12">
-                                    <label for="descripcion" class="form-label">Descripcion</label>
-                                    <textarea class="form-control" id="descripcion" name="descripcion" rows="5" required formControlName="descripcion"></textarea>
-                                </div>
+                            <div class="col-12">
+                                <label for="diasRestantes" class="form-label fw-medium">Días Restantes</label>
+                                <input type="number" class="form-control" id="diasRestantes" placeholder="Escriba los días restantes aquí" formControlName="diasRestantes" />
                             </div>
                         </div>
 
-                        <div class="d-flex justify-content-end gap-2 mt-4">
-                            <button type="button" class="btn btn-secondary" (click)="limpiarFormulario()">Limpiar</button>
-                            <button type="submit" class="btn btn-primary" id="btn-enviar" *ngIf="esEdicion">Editar</button>
-                            <button type="submit" class="btn btn-primary" id="btn-enviar" *ngIf="!esEdicion">Publicar</button>
+                        <div class="d-flex justify-content-end gap-2 mt-4 border-top pt-3">
+                            <button type="button" class="btn btn-outline-secondary" (click)="limpiarFormulario()">Limpiar</button>
+                            <button type="submit" class="btn btn-primary" *ngIf="esEdicion">Guardar Cambios</button>
+                            <button type="submit" class="btn btn-success" *ngIf="!esEdicion && !esPeticion">Publicar</button>
+                            <button type="button" class="btn btn-warning text-dark" *ngIf="esPeticion" (click)="addPeticion()">Realizar petición</button>
                         </div>
                     </div>
                 </form>
             </div>
+
+            <section class="container py-5 px-0">
+                <h4 class="mb-3 text-secondary text-uppercase tracking-wider" style="font-size: 0.9rem;">Vista Previa Interactiva</h4>
+                <div class="card mb-5 shadow-sm border-0 bg-white">
+                    <img class="card-img-top" [src]="noticiaForm.get('imagen')?.value || 'https://via.placeholder.com/800x400?text=Vista+Previa+de+Imagen'" alt="Preview" style="max-height: 350px; object-fit: cover;">
+                    <div class="card-body">
+                        <span class="badge bg-primary text-uppercase mb-2">{{ noticiaForm.get('esDistincion')?.value || 'Categoría' }}</span>
+                        <h3 class="fw-bold text-dark">{{ noticiaForm.get('titulo')?.value || 'Título Temporal de la Publicación' }}</h3>
+                        <div class="text-muted small text-uppercase fw-semibold mb-3">Escuela de Minas &nbsp;|&nbsp; Jujuy</div>
+                        <p class="card-text text-secondary">{{ noticiaForm.get('descripcion')?.value || 'Aquí se visualizará el cuerpo de la descripción en tiempo real a medida que escriba en el cuadro de texto superior.' }}</p>
+                    </div>
+                </div>
+            </section>
             
+        </div>
+    </div>
+</div>
+
+<div class="container py-3" *ngIf="peticiones.length > 0">
+    <h2 class="mb-4 fw-bold text-dark border-bottom pb-2">Peticiones Hechas</h2>
+
+    <div class="row row-cols-1 row-cols-md-2 g-4 mb-5">
+        <div class="col" *ngFor="let p of peticiones">
+            <div class="card h-100 shadow-sm border-0">
+                <img class="card-img-top" [src]="p.imagen" [alt]="p.titulo" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <span class="badge bg-secondary text-uppercase mb-2">Institucional</span>
+                    <h5 class="fw-bold text-dark card-title">{{ p.titulo }}</h5>
+                    <div class="text-muted card-subtitle small mb-2">Escuela de Minas &nbsp;|&nbsp; Jujuy</div>
+                    <p class="card-text text-truncate-custom text-secondary" style="display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden;">
+                        {{ p.descripcion }}
+                    </p>
+                    <div class="d-flex gap-2 mt-3">
+                        <button class="btn btn-sm btn-outline-success w-50 d-flex align-items-center justify-content-center gap-1" 
+                            (click)="aprobarPeticion(p.id)" data-bs-dismiss="modal" title="Aprobar">
+                            <i class="bi bi-check-lg fs-5"></i> Aprobar
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger w-50 d-flex align-items-center justify-content-center gap-1" 
+                            (click)="rechazarPeticion(p.id)" data-bs-dismiss="modal" title="Rechazar">
+                            <i class="bi bi-x-lg fs-5"></i> Rechazar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <div class="toast align-items-center text-white bg-success border-0" id="ToastPeticion" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="3000">
+        <div class="d-flex">
+            <div class="toast-body d-flex align-items-center gap-2">
+                <i class="bi bi-check-circle-fill fs-5"></i>
+                <span>¡Petición guardada y agregada correctamente al sistema!</span>
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
     </div>
 </div>
