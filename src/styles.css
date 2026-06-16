@@ -13,6 +13,154 @@
     --font-text: 'Manrope', sans-serif;
 }
 
+/* ── Bootstrap Button Overrides ── */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: #fff;
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-check:checked + .btn-primary {
+    background-color: var(--secondary-color) !important;
+    border-color: var(--secondary-color) !important;
+    color: #fff !important;
+}
+.btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+.btn-outline-primary:hover,
+.btn-outline-primary:focus,
+.btn-outline-primary:active,
+.btn-check:checked + .btn-outline-primary {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    color: #fff !important;
+}
+.btn-secondary {
+    background-color: #2b2b2b;
+    border-color: #2b2b2b;
+    color: #fff;
+}
+.btn-secondary:hover,
+.btn-secondary:focus,
+.btn-secondary:active {
+    background-color: #1a1a1a !important;
+    border-color: #1a1a1a !important;
+    color: #fff !important;
+}
+.btn-outline-secondary {
+    color: #2b2b2b;
+    border-color: #2b2b2b;
+}
+.btn-outline-secondary:hover,
+.btn-outline-secondary:focus,
+.btn-outline-secondary:active {
+    background-color: #2b2b2b !important;
+    border-color: #2b2b2b !important;
+    color: #fff !important;
+}
+.btn-success {
+    background-color: #3d8b4f;
+    border-color: #3d8b4f;
+}
+.btn-outline-success {
+    color: #3d8b4f;
+    border-color: #3d8b4f;
+}
+.btn-outline-success:hover {
+    background-color: #3d8b4f !important;
+    border-color: #3d8b4f !important;
+    color: #fff !important;
+}
+.btn-danger {
+    background-color: #b33d3d;
+    border-color: #b33d3d;
+}
+.btn-outline-danger {
+    color: #b33d3d;
+    border-color: #b33d3d;
+}
+.btn-outline-danger:hover {
+    background-color: #b33d3d !important;
+    border-color: #b33d3d !important;
+    color: #fff !important;
+}
+.btn-warning {
+    color: #fff;
+    background-color: #c47a2e;
+    border-color: #c47a2e;
+}
+.btn-outline-warning {
+    color: #c47a2e;
+    border-color: #c47a2e;
+}
+.btn-outline-warning:hover {
+    background-color: #c47a2e !important;
+    border-color: #c47a2e !important;
+    color: #fff !important;
+}
+.btn-outline-light:hover {
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+    color: #fff !important;
+}
+.btn-outline-dark {
+    color: var(--text-color);
+    border-color: var(--text-color);
+}
+.btn-outline-dark:hover {
+    background-color: var(--text-color) !important;
+    border-color: var(--text-color) !important;
+    color: #fff !important;
+}
+/* ── Form Controls ── */
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(158, 61, 61, 0.25);
+}
+.form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+/* ── Bootstrap Utility Overrides ── */
+.text-primary {
+    color: var(--primary-color) !important;
+}
+.bg-primary {
+    background-color: var(--primary-color) !important;
+}
+.border-primary {
+    border-color: var(--primary-color) !important;
+}
+.text-secondary {
+    color: var(--text-gray) !important;
+}
+.bg-secondary {
+    background-color: var(--text-gray) !important;
+}
+.border-secondary {
+    border-color: var(--text-gray) !important;
+}
+/* ── Pagination ── */
+.page-link {
+    color: var(--primary-color);
+}
+.page-link:hover {
+    color: var(--secondary-color);
+}
+.active > .page-link {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+/* ── Spinner ── */
+.spinner-border.text-primary {
+    color: var(--primary-color) !important;
+}
+
 body.dark-mode {
     background-color: var(--bg-color) !important;
     color: var(--text-color) !important;
@@ -115,6 +263,15 @@ body.dark-mode h6 {
     border: 0;
 }
 
+/* ── Dropdown items ── */
+.dropdown-item:hover,
+.dropdown-item:focus,
+.dropdown-item:active,
+.dropdown-item.active {
+    background-color: var(--primary-color) !important;
+    color: #fff !important;
+}
+
 body.dark-mode .dropdown-menu {
     background-color: var(--card-bg) !important;
     border-color: rgba(255, 255, 255, 0.1);
@@ -125,7 +282,10 @@ body.dark-mode .dropdown-item {
     color: var(--text-color) !important;
 }
 
-body.dark-mode .dropdown-item:hover {
+body.dark-mode .dropdown-item:hover,
+body.dark-mode .dropdown-item:focus,
+body.dark-mode .dropdown-item:active,
+body.dark-mode .dropdown-item.active {
     background-color: var(--primary-color) !important;
     color: #ffffff !important;
 }
@@ -268,10 +428,10 @@ body.dark-mode .modal-footer {
 }
 
 /*Modal Panel Admin*/
-.card-title {
-    color: #2c2c2c !important;
+.modal-panel .card-title {
+    color: var(--primary-color) !important;
 }
 
-body.dark-mode .card-title {
-    color: #bebebe !important;
+body.dark-mode .modal-panel .card-title {
+    color: var(--primary-color) !important;
 }

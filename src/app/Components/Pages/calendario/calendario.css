@@ -5,10 +5,15 @@
 .calendario {
   max-width: 800px;
   margin: 0 auto;
-  background: #fff;
+  background: var(--card-bg);
   border-radius: 12px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   padding: 1.5rem;
+}
+
+body.dark-mode .calendario {
+  background: var(--card-bg);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
 }
 
 /* ---------- ENCABEZADO (mes anterior | título | mes siguiente) ---------- */
@@ -25,7 +30,7 @@
   margin: 0;
   text-transform: uppercase;
   letter-spacing: 1px;
-  color: #1a1a2e;
+  color: var(--primary-color);
 }
 
 .btn-mes {
@@ -35,14 +40,25 @@
   padding: 0.4rem 0.8rem;
   cursor: pointer;
   font-size: 1.2rem;
-  color: #495057;
+  color: var(--text-color);
   transition: all 0.2s;
 }
 
 .btn-mes:hover {
-  background: #f1f3f5;
-  color: #0d6efd;
-  border-color: #0d6efd;
+  background: var(--surface-color);
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+body.dark-mode .btn-mes {
+  border-color: rgba(255, 255, 255, 0.15);
+  color: var(--text-color);
+}
+
+body.dark-mode .btn-mes:hover {
+  background: rgba(218, 128, 128, 0.15);
+  color: var(--primary-color);
+  border-color: var(--primary-color);
 }
 
 /* ---------- ENCABEZADO DE DÍAS (Dom Lun Mar...) ---------- */
@@ -57,7 +73,7 @@
   text-align: center;
   font-weight: 600;
   font-size: 0.8rem;
-  color: #6c757d;
+  color: var(--text-gray);
   padding: 0.5rem 0;
   text-transform: uppercase;
 }
@@ -81,12 +97,16 @@
   transition: background 0.15s;
   font-size: 0.95rem;
   font-weight: 500;
-  color: #212529;
+  color: var(--text-color);
   min-height: 45px;
 }
 
 .celda-dia:hover:not(.vacio) {
-  background: #e9ecef;
+  background: var(--surface-color);
+}
+
+body.dark-mode .celda-dia:hover:not(.vacio) {
+  background: rgba(255, 255, 255, 0.05);
 }
 
 /* Días vacíos (fuera del mes) */
@@ -96,48 +116,47 @@
 
 /* Día actual (hoy) */
 .celda-dia.hoy {
-  background: #0d6efd;
+  background: var(--primary-color);
   color: #fff;
   font-weight: 700;
 }
 
 .celda-dia.hoy:hover {
-  background: #0b5ed7;
+  background: var(--secondary-color);
 }
 
 /* Día seleccionado por el usuario */
 .celda-dia.seleccionado {
-  outline: 3px solid #0d6efd;
+  outline: 3px solid var(--primary-color);
   outline-offset: -3px;
-  background: #e7f1ff;
+  background: rgba(158, 61, 61, 0.1);
+}
+
+body.dark-mode .celda-dia.seleccionado {
+  outline: 3px solid var(--primary-color);
+  background: rgba(218, 128, 128, 0.15);
 }
 
 /* Días con eventos - borde coloreado según tipo */
 .celda-dia.tiene-evento {
-  border: 3px solid #6f42c1;
+  border: 3px solid var(--primary-color);
 }
 
 .celda-dia.tiene-evento.feriado {
-  border-color: #dc3545;
-  color: #dc3545;
+  border-color: #b33d3d;
+  color: #b33d3d;
   font-weight: 600;
 }
 
 .celda-dia.tiene-evento.academico {
-  border-color: #fd7e14;
-  color: #fd7e14;
+  border-color: #c47a2e;
+  color: #c47a2e;
   font-weight: 600;
 }
 
 .celda-dia.tiene-evento.especial {
-  border-color: #0d6efd;
-  color: #0d6efd;
-  font-weight: 600;
-}
-
-.celda-dia.tiene-evento.especial {
-  border-color: #450dfd;
-  color: #450dfd;
+  border-color: var(--primary-color);
+  color: var(--primary-color);
   font-weight: 600;
 }
 
@@ -145,22 +164,37 @@
   line-height: 1;
 }
 
+body.dark-mode .celda-dia.tiene-evento.feriado {
+  border-color: #da8080;
+  color: #da8080;
+}
+
+body.dark-mode .celda-dia.tiene-evento.academico {
+  border-color: #e8a84c;
+  color: #e8a84c;
+}
+
+body.dark-mode .celda-dia.tiene-evento.especial {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
 /* ---------- PANEL DE EVENTOS ---------- */
 .panel-eventos {
   margin-top: 1.5rem;
   padding-top: 1.5rem;
-  border-top: 2px solid #f1f3f5;
+  border-top: 2px solid var(--surface-color);
 }
 
 .panel-titulo {
   font-size: 1rem;
   font-weight: 600;
-  color: #1a1a2e;
+  color: var(--primary-color);
   margin-bottom: 1rem;
 }
 
 .sin-eventos {
-  color: #6c757d;
+  color: var(--text-gray);
   font-style: italic;
 }
 
@@ -181,44 +215,76 @@
   gap: 0.8rem;
   padding: 0.8rem 1rem;
   border-radius: 8px;
-  background: #f8f9fa;
-  border-left: 4px solid #dee2e6;
+  background: var(--surface-color);
+  border-left: 4px solid var(--text-gray);
   transition: background 0.15s;
 }
 
 .tarjeta-evento:hover {
-  background: #f1f3f5;
+  background: rgba(158, 61, 61, 0.05);
+}
+
+body.dark-mode .tarjeta-evento {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+body.dark-mode .tarjeta-evento:hover {
+  background: rgba(218, 128, 128, 0.08);
 }
 
 /* Colores según tipo de evento */
 .tarjeta-evento.con-feriado {
-  border-left-color: #dc3545;
+  border-left-color: #b33d3d;
 }
 
 .tarjeta-evento.con-academico {
-  border-left-color: #fd7e14;
+  border-left-color: #c47a2e;
 }
 
 .tarjeta-evento.con-especial {
-  border-left-color: #450dfd;
+  border-left-color: var(--primary-color);
+}
+
+body.dark-mode .tarjeta-evento.con-feriado {
+  border-left-color: #da8080;
+}
+
+body.dark-mode .tarjeta-evento.con-academico {
+  border-left-color: #e8a84c;
+}
+
+body.dark-mode .tarjeta-evento.con-especial {
+  border-left-color: var(--primary-color);
 }
 
 .evento-icono {
   font-size: 1.3rem;
-  color: #6c757d;
+  color: var(--text-gray);
   padding-top: 2px;
 }
 
 .con-feriado .evento-icono {
-  color: #dc3545;
+  color: #b33d3d;
 }
 
 .con-academico .evento-icono {
-  color: #fd7e14;
+  color: #c47a2e;
 }
 
 .con-especial .evento-icono {
-  color: #0d6efd;
+  color: var(--primary-color);
+}
+
+body.dark-mode .con-feriado .evento-icono {
+  color: #da8080;
+}
+
+body.dark-mode .con-academico .evento-icono {
+  color: #e8a84c;
+}
+
+body.dark-mode .con-especial .evento-icono {
+  color: var(--primary-color);
 }
 
 .evento-info {
@@ -227,12 +293,12 @@
 
 .evento-titulo {
   font-size: 0.95rem;
-  color: #212529;
+  color: var(--text-color);
 }
 
 .evento-desc {
   font-size: 0.85rem;
-  color: #6c757d;
+  color: var(--text-gray);
   margin: 2px 0 0;
 }
 

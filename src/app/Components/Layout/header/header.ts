@@ -16,6 +16,10 @@ export class Header {
   isDarkMode = false;
   noticias: any[] = [];
   distinciones: any[] = [];
+  peticiones: any[] = [];
+  verNoticia: boolean = false;
+  verDistincion: boolean = false;
+  peticionSeleccionada: any;
 
   get usuario(): any {
     return this.serviceUsuarios.usuario;
@@ -36,12 +40,41 @@ export class Header {
   onSubmit() {
   }
 
+  ngOnInit(){
+    this.obtenerRol();
+    this.getPeticion();
+  }
+
   cerrarSesion() {
     this.serviceUsuarios.logout();
     const toastMessage = document.getElementById('ToastOut')
     const toastBootstrap = (window as any).bootstrap.Toast.getOrCreateInstance(toastMessage)
     toastBootstrap.show()
     this.router.navigate(['/']);
+  }
+
+  obtenerRol(){
+    var rol = this.serviceUsuarios.usuarioGuardar.rol;
+    if (rol == "administradorArea") {
+      rol = "Administrador del Area";
+    }
+    if (rol == "administradorResponsableComunicacion") {
+      rol = "Administrador Responsable de Comunicación";
+    }
+    if (rol == "admin") {
+      rol = "Administrador";
+    }
+    return rol;
+  }
+
+  administrarPeticiones() {
+   this.router.navigate(['/publicaciones']);
+  }
+
+  realizarPeticion() {
+   this.router.navigate(['/publicaciones'], { 
+      state: { esPeticion: true }
+    });
   }
 
   //***************************Noticias******************************
@@ -56,6 +89,10 @@ export class Header {
     });
   }
 
+  verNotici(){
+    this.verNoticia = !this.verNoticia;
+  }
+
 //****************************Distinciones*********************************
   borrarDistincion(id: number) {
     this.noticiasService.deleteDistincion(id);
@@ -66,6 +103,45 @@ export class Header {
     this.router.navigate(['/publicaciones'], { 
       state: { distincion: distincion }
     });
+  }
+
+  verDistinciones(){
+    this.verDistincion = !this.verDistincion;
+  }
+
+  addNoticia() {
+    this.router.navigate(['/publicaciones']);
+  }
+
+  //****************************Peticiones*********************************
+  aprobarPeticion(id: number) {
+    this.noticiasService.aprobarPeticion(id);
+  }
+
+  rechazarPeticion(id: number) {
+    this.noticiasService.deletePeticion(id);
+  }
+
+  getPeticion() {
+    this.peticiones = this.noticiasService.getPeticiones();
+  }
+
+  infoPeticion(peticion: any) {
+    this.peticionSeleccionada = peticion;
+
+    const panelModal = document.getElementById('panel');
+    if (panelModal) {
+      const panelInstance = (window as any).bootstrap.Modal.getInstance(panelModal);
+      if (panelInstance) {
+        panelInstance.hide();
+      }
+    }
+
+    const infoModal = document.getElementById('infoModal');
+    if (infoModal) {
+      const infoInstance = new (window as any).bootstrap.Modal(infoModal);
+      infoInstance.show();
+    }
   }
 
 //*********************************Registrar Usuario*********************************

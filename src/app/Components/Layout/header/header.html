@@ -101,76 +101,201 @@
   </div>
 </div>
 
-<!--Modal Panel Administrador-->
+<!-- Modal del Panel Administrador -->
 <div class="modal fade modal-panel" id="panel" tabindex="-1" aria-labelledby="panelLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-panel">
+    <div class="modal-dialog modal-dialog-panel"> 
         <div class="modal-content modal-content-panel">
-            <div class="modal-header modal-header-panel">
-                <h5 class="modal-title text-uppercase fw-semibold letter-spacing" id="panelLabel">Panel de
-                    Administrador</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
+            
+            <div class="modal-header modal-header-panel bg-dark text-white">
+                <h5 class="modal-title text-uppercase fw-semibold letter-spacing" id="panelLabel">
+                    <i class="bi bi-sliders me-2"></i>Panel de Administrador
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body modal-body-panel">
-                <h5 class="text-center text-uppercase fw-semibold letter-spacing">Noticias</h5>
-                @for (noticia of noticias; track $index) {
-                <div class="carrito-item d-flex align-items-center gap-3 mb-3 pb-3 border-bottom">
-                    <img [src]="noticia.imagen" [alt]="noticia.titulo" class="rounded"
-                        style="width: 60px; height: 60px; object-fit: contain;">
-                    <div class="flex-grow-1">
-                        <p class="mb-0 fw-semibold small card-title text-primary">{{ noticia.titulo }}</p>
-                    </div>
-                    <div class="text-end">
-                        @if(this.usuario && (this.usuario.rol == "admin" || this.usuario.rol == "administradorResponsableComunicacion")) {
-                            <button class="btn btn-sm btn-outline-danger p-0 px-1"
-                                (click)="borrarNoticia(noticia.id)" data-bs-dismiss="modal">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        }
-                        <button class="btn btn-sm btn-outline-success p-0 px-1" (click)="editarNoticia(noticia)" data-bs-dismiss="modal">
-                            <i class="bi bi-pencil"></i>
-                        </button>
-                    </div>
-                </div>
-                }
 
-                <h5 class="text-center text-uppercase fw-semibold letter-spacing mt-3">Distinciones</h5>
-                @for (distincion of distinciones; track $index) {
-                <div class="carrito-item d-flex align-items-center gap-3 mb-3 pb-3 border-bottom">
-                    <img [src]="distincion.imagen" [alt]="distincion.titulo" class="rounded"
-                        style="width: 60px; height: 60px; object-fit: contain;">
-                    <div class="flex-grow-1">
-                        <p class="mb-0 fw-semibold small card-title text-">{{ distincion.titulo }}</p>
-                    </div>
-                    <div class="text-end">
-                        @if(this.usuario && (this.usuario.rol == "admin" || this.usuario.rol == "administradorResponsableComunicacion")) {
-                            <button class="btn btn-sm btn-outline-danger p-0 px-1" (click)="borrarDistincion(distincion.id)" data-bs-dismiss="modal">
-                            <i class="bi bi-trash"></i>
-                            </button>
-                        }
-                        <button class="btn btn-sm btn-outline-success p-0 px-1" (click)="editarDistincion(distincion)" data-bs-dismiss="modal">
-                            <i class="bi bi-pencil"></i>
-                        </button>
-                    </div>
-                </div>
-                }
-
+            <div class="modal-body modal-body-panel p-3">
+                <p>{{obtenerRol()}}</p>
                 @if (this.usuario && (this.usuario.rol == "admin" || this.usuario.rol == "administradorResponsableComunicacion")) {
-                    <button class="btn btn-primary" (click)="cambiarEstadoInscripcion()">Inscripciones</button>
-                    <button class="btn btn-primary" (click)="administrarFechas()">Calendario</button>
-                    <button class="btn btn-primary" (click)="administrarHorarios()">Horarios</button>
+                    <div class="card mb-3 border-0 bg-light">
+                        <div class="card-body p-2">
+                            <h6 class="text-uppercase fw-bold text-secondary mb-2 small" style="font-size: 0.75rem;">Gestión</h6>
+                            <div class="d-flex flex-wrap gap-1">
+                                <button class="btn btn-sm btn-success d-flex align-items-center gap-1 py-1 px-2" (click)="addNoticia()">
+                                    <i class="bi bi-plus-circle"></i> Agregar
+                                </button>
+                                <button class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1 py-1 px-2" (click)="cambiarEstadoInscripcion()">
+                                    <i class="bi bi-card-checklist"></i> Inscripciones
+                                </button>
+                                <button class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1 py-1 px-2" (click)="administrarFechas()">
+                                    <i class="bi bi-calendar3"></i> Calendario
+                                </button>
+                                <button class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1 py-1 px-2" (click)="administrarHorarios()">
+                                    <i class="bi bi-clock"></i> Horarios
+                                </button>
+                                <button class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1 py-1 px-2" (click)="administrarPeticiones()">
+                                    <i class="bi bi-file-earmark"></i> Peticiones
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }@else if (this.usuario && (this.usuario.rol == "administradorArea")) {
+                    <div class="card mb-3 border-0 bg-light">
+                        <div class="card-body p-2">
+                            <h6 class="text-uppercase fw-bold text-secondary mb-2 small" style="font-size: 0.75rem;">Gestión</h6>
+                            <div class="d-flex flex-wrap gap-1">
+                                <button class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1 py-1 px-2" (click)="realizarPeticion()">
+                                    <i class="bi bi-plus-circle"></i> Hacer Petición
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 }
-                <p class="small text-center text-muted fst-italic">En caso de estar editando una publicación, no podra seleccionar otra publicacion para editar hasta que guarde o cancele la edición.</p>
+
+                <div class="alert alert-info py-2 px-3 mb-3 small d-flex align-items-start gap-2" role="alert" style="font-size: 0.8rem;">
+                    <i class="bi bi-info-circle-fill mt-0.5 text-info"></i>
+                    <span>En caso de estar editando, guarde o cancele antes de seleccionar otra publicación.</span>
+                </div>
+
+                <hr class="my-3 text-muted">
+                <div class="mb-4">
+                    <button class="btn btn-sm btn-primary d-flex align-items-center gap-1 shadow-sm py-1.5 px-2" (click)="verNotici()">Ver Noticias</button>
+                    @if(verNoticia) {
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h6 class="text-uppercase fw-bold letter-spacing m-0 text-dark" style="font-size: 0.85rem;">
+                                <i class="bi bi-newspaper me-1 text-primary"></i>Noticias
+                            </h6>
+                            <span class="badge bg-primary rounded-pill small" style="font-size: 0.75rem;">{{ noticias.length }}</span>
+                        </div>
+                        
+                        <div class="d-flex flex-column gap-2 w-100">
+                            @for (noticia of noticias; track $index) {
+                                <div class="p-2 rounded border bg-white d-flex align-items-center justify-content-between w-100 shadow-sm">
+                                    <div class="d-flex align-items-center gap-2 overflow-hidden w-100">
+                                        <img [src]="noticia.imagen" [alt]="noticia.titulo" class="rounded border flex-shrink-0"
+                                            style="width: 42px; height: 42px; object-fit: cover;">
+                                        <p class="mb-0 fw-semibold text-dark text-truncate small pe-2" style="font-size: 0.85rem;">
+                                            {{ noticia.titulo }}
+                                        </p>
+                                        <span class="badge bg-danger rounded-pill small" style="font-size: 0.75rem;">
+                                           <i class="bi bi-clock-history"></i> {{ noticia.diasRestantes }}
+                                        </span>
+                                    </div>
+                                    @if(this.usuario && (this.usuario.rol == "admin" || this.usuario.rol == "administradorResponsableComunicacion")) {
+                                        <div class="d-flex gap-1 flex-shrink-0">
+                                            <button class="btn btn-sm btn-success text-white d-flex align-items-center justify-content-center p-0" 
+                                                    (click)="editarNoticia(noticia)" data-bs-dismiss="modal" title="Editar"
+                                                    style="width: 32px; height: 32px; min-width: 32px;">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-danger text-white d-flex align-items-center justify-content-center p-0" 
+                                                    (click)="borrarNoticia(noticia.id)" data-bs-dismiss="modal" title="Eliminar"
+                                                    style="width: 32px; height: 32px; min-width: 32px;">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        </div>
+                        }
+                    </div>
+                    <div class="mb-2">
+                        <button class="btn btn-sm btn-primary d-flex align-items-center gap-1 shadow-sm py-1.5 px-2" (click)="verDistinciones()">Ver Distinciones</button>
+                        @if(verDistincion) {
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h6 class="text-uppercase fw-bold letter-spacing m-0 text-dark" style="font-size: 0.85rem;">
+                                <i class="bi bi-award me-1 text-warning"></i>Distinciones
+                            </h6>
+                            <span class="badge bg-warning text-dark rounded-pill small" style="font-size: 0.75rem;">{{ distinciones.length }}</span>
+                        </div>
+
+                        <div class="d-flex flex-column gap-2 w-100">
+                            @for (distincion of distinciones; track $index) {
+                                <div class="p-2 rounded border bg-white d-flex align-items-center justify-content-between w-100 shadow-sm">
+                                    <div class="d-flex align-items-center gap-2 overflow-hidden w-100">
+                                        <img [src]="distincion.imagen" [alt]="distincion.titulo" class="rounded border flex-shrink-0"
+                                            style="width: 42px; height: 42px; object-fit: cover;">
+                                        <p class="mb-0 fw-semibold text-dark text-truncate small pe-2" style="font-size: 0.85rem;">
+                                            {{ distincion.titulo }}
+                                        </p>
+                                        <span class="badge bg-danger rounded-pill small" style="font-size: 0.75rem;">
+                                            <i class="bi bi-clock-history"></i> {{ distincion.diasRestantes }}
+                                        </span>
+                                    </div>
+                                    @if(this.usuario && (this.usuario.rol == "admin" || this.usuario.rol == "administradorResponsableComunicacion")) {
+                                        <div class="d-flex gap-1 flex-shrink-0">
+                                            <button class="btn btn-sm btn-success text-white d-flex align-items-center justify-content-center p-0" 
+                                                    (click)="editarDistincion(distincion)" data-bs-dismiss="modal" title="Editar"
+                                                    style="width: 32px; height: 32px; min-width: 32px;">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-danger text-white d-flex align-items-center justify-content-center p-0" 
+                                                    (click)="borrarDistincion(distincion.id)" data-bs-dismiss="modal" title="Eliminar"
+                                                    style="width: 32px; height: 32px; min-width: 32px;">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        </div>
+                        }
+
+                        <div class="mb-2">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h6 class="text-uppercase fw-bold letter-spacing m-0 text-dark" style="font-size: 0.85rem;">
+                                <i class="bi bi-award me-1 text-warning"></i>Peticiones pendientes de aprobación
+                            </h6>
+                            <span class="badge bg-warning text-dark rounded-pill small" style="font-size: 0.75rem;">{{ peticiones.length }}</span>
+                        </div>
+
+                        <div class="d-flex flex-column gap-2 w-100">
+                            @for (peticion of peticiones; track $index) {
+                                <div class="p-2 rounded border bg-white d-flex align-items-center justify-content-between w-100 shadow-sm">
+                                    <div class="d-flex align-items-center gap-2 overflow-hidden w-100">
+                                        <img [src]="peticion.imagen" [alt]="peticion.titulo" class="rounded border flex-shrink-0"
+                                            style="width: 42px; height: 42px; object-fit: cover;">
+                                        <p class="mb-0 fw-semibold text-dark text-truncate small pe-2" style="font-size: 0.85rem;">
+                                            {{ peticion.titulo }}
+                                        </p>
+                                        <span class="badge bg-danger rounded-pill small" style="font-size: 0.75rem;">
+                                           <i class="bi bi-clock-history"></i> {{ peticion.diasRestantes }}
+                                        </span>
+                                    </div>
+                                    @if(this.usuario && (this.usuario.rol == "admin" || this.usuario.rol == "administradorResponsableComunicacion")) {
+                                        <div class="d-flex gap-1 flex-shrink-0">
+                                            <button class="btn btn-sm btn-success text-white d-flex align-items-center justify-content-center p-0" 
+                                                    (click)="aprobarPeticion(peticion.id)" data-bs-dismiss="modal" title="Aprobar"
+                                                    style="width: 32px; height: 32px; min-width: 32px;">
+                                                <i class="bi bi-check"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-danger text-white d-flex align-items-center justify-content-center p-0" 
+                                                    (click)="rechazarPeticion(peticion.id)" data-bs-dismiss="modal" title="Rechazar"
+                                                    style="width: 32px; height: 32px; min-width: 32px;">
+                                                <i class="bi bi-x"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-info text-white d-flex align-items-center justify-content-center p-0" 
+                                                    title="Info"
+                                                    style="width: 32px; height: 32px; min-width: 32px;" 
+                                                    (click)="infoPeticion(peticion)">
+                                                <i class="bi bi-info-circle"></i>
+                                            </button>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
             </div>
 
-            <!-- Footer-->
-            <div class="modal-footer-panel p-3 border-top">
+            <div class="modal-footer bg-light p-2 border-top">
                 <div class="d-flex justify-content-between align-items-center w-100">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    
                     @if(this.usuario && this.usuario.rol == "admin") {  
-                        <button class="btn btn-outline-secondary border-0 p-2 d-flex align-items-center justify-content-center position-relative"
-                        type="button" aria-label="Registrar Usuario" data-bs-toggle="modal" data-bs-target="#registroModal">
-                            <i class="bi bi-person-plus"></i> Registrar
+                        <button class="btn btn-sm btn-primary d-flex align-items-center gap-1 shadow-sm py-1.5 px-2"
+                                type="button" aria-label="Registrar Usuario" data-bs-toggle="modal" data-bs-target="#registroModal">
+                            <i class="bi bi-person-plus-fill"></i> Registrar
                         </button>                
                     }
                 </div>
@@ -179,7 +304,6 @@
         </div>
     </div>
 </div>
-
 
 <!--*********************************Registrar Usuario*********************************-->
 <div class="modal fade" id="registroModal" tabindex="-1" aria-labelledby="registroModalLabel" aria-hidden="true">
@@ -236,4 +360,64 @@
   <div class="toast-body">
         ¡Usuario agregado exitosamente!
   </div>
+</div>
+
+<!-- Modal de Información (Corregido y optimizado) -->
+<div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <!-- El @if se coloca AQUÍ adentro para que el contenedor del modal siempre esté disponible -->
+            @if (peticionSeleccionada) {
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="infoModalLabel">{{ peticionSeleccionada.titulo}}</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body p-0"> 
+                    <div class="row g-0">
+                        
+                        <div class="col-12 col-md-6 bg-light d-flex align-items-center justify-content-center" style="min-height: 400px; background-color: var(--surface-color) !important;">
+                            <img [src]="peticionSeleccionada.imagen" class="w-100 h-100 object-fit-cover" alt="Foto del curso">
+                        </div>
+                        
+                        <div class="col-12 col-md-6 p-4 d-flex flex-column justify-content-between" style="max-height: 500px; overflow-y: auto;">
+                            <div>
+                                <div class="mb-3">
+                                    <span class="text-muted small d-block">Descripción</span>
+                                    <p class="card-span m-0">{{ peticionSeleccionada.descripcion }}</p>
+                                </div>
+                                
+                                <hr class="my-2" style="opacity: 0.1;">
+
+                                <div class="row g-2">
+                                    <div class="col-6">
+                                        <span class="text-muted small d-block">Duración</span>
+                                        <p class="m-0"><strong>{{ peticionSeleccionada.diasRestantes }} días</strong></p>
+                                    </div>
+                                    <div class="col-6">
+                                        <span class="text-muted small d-block">Modalidad</span>
+                                        <p class="m-0"><strong>{{ peticionSeleccionada.modalidad }}</strong></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="errorMessage" class="text-danger small d-none mt-2 text-start"></div>
+                        </div>
+
+                    </div> <!-- /row -->
+                </div> <!-- /modal-body -->
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            } @else {
+                <!-- Loader opcional por si la petición tarda en cargar -->
+                <div class="modal-body text-center p-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Cargando...</span>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
 </div>

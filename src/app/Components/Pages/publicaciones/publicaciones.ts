@@ -11,29 +11,27 @@ import { Router } from '@angular/router';
   templateUrl: './publicaciones.html',
   styleUrl: './publicaciones.css',
 })
-
 export class Publicaciones implements OnInit {
 
-  // Variable para controlar el envio del formulario
   noticiaSeleccionada: any;
   distincionSeleccionada: any;
   esEdicion: boolean = false;
   submitted: boolean = false;
-  esDistincion: boolean = false;
+  esPeticion: boolean = false;
+  peticiones: any[] = [];
   
+  // Declaramos el FormGroup mapeando exactamente los campos del HTML
   noticiaForm: FormGroup = new FormGroup({
     id: new FormControl(0),
     imagen: new FormControl(''),
     titulo: new FormControl('', Validators.required),
-    descripcion: new FormControl('', Validators.required)
+    descripcion: new FormControl('', Validators.required),
+    esDistincion: new FormControl('', Validators.required),
+    diasRestantes: new FormControl('', Validators.required),
   });
 
-  // Formulario public publicacionForm: FormGroup;
-
-
-  // Constructor
   constructor(
-    public noticiasService: NoticiasServices, // Importamos el servicio
+    public noticiasService: NoticiasServices, 
     private router: Router
   ) {
     const navegacion = this.router.getCurrentNavigation();
@@ -41,57 +39,69 @@ export class Publicaciones implements OnInit {
 
     if (estado && estado['data']) {
       this.noticiaSeleccionada = estado['data'];
-      this.esEdicion = true; // Bandera para avisar que es edicion
+      this.esEdicion = true; 
       
-      // Rellenamos las variables del formulario con los datos recibidos
       this.noticiaForm.patchValue({
         id: this.noticiaSeleccionada.id,
         titulo: this.noticiaSeleccionada.titulo,
-        descripcion: this.noticiaSeleccionada.descripcion
+        descripcion: this.noticiaSeleccionada.descripcion,
+        diasRestantes: this.noticiaSeleccionada.diasRestantes,
+        esDistincion: 'noticia' // Setea el select por defecto
       });
     } else if (estado && estado['distincion']) {
       this.distincionSeleccionada = estado['distincion'];
       this.esEdicion = true;
-      this.esDistincion = true; 
-      
+
       this.noticiaForm.patchValue({
         id: this.distincionSeleccionada.id,
         titulo: this.distincionSeleccionada.titulo,
-        descripcion: this.distincionSeleccionada.descripcion
+        descripcion: this.distincionSeleccionada.descripcion,
+        diasRestantes: this.distincionSeleccionada.diasRestantes,
+        esDistincion: 'distincion' // Setea el select por defecto
       });
+    }
+
+    if (estado && estado['esPeticion']) {
+      this.esPeticion = estado['esPeticion'];
     }
   }
 
   ngOnInit() { 
+    this.obtenerTodasPeticiones();
   }
 
-  // Metodo para limpiar el formulario
   limpiarFormulario() {
-    this.noticiaForm.reset();
+    this.noticiaForm.reset({ id: 0, imagen: '', titulo: '', descripcion: '', esDistincion: '', diasRestantes: '' });
     this.submitted = false;
-
   }
 
-  // Metodo que se ejecuta al registrar el formulario
   onSubmit() {
     this.submitted = true;
+    
     if (this.noticiaForm.valid) {
+      const tipoPublicacion = this.noticiaForm.value.esDistincion;
+
       if (this.esEdicion) {
-        if (this.esDistincion) {
+        if (tipoPublicacion === "distincion") {
           this.updateDistincion();
         } else {
           this.updateNoticia();
         }
       } else {
-        if (this.esDistincion) {
+        if (tipoPublicacion === "distincion") {
           this.addDistincion();
         } else {
           this.addNoticia();
         }
       }
+
+      if (this.esPeticion) {
+        this.addPeticion();
+      }
+    } else {
+      alert('Por favor, complete todos los campos obligatorios.');
     }
   }
-
 
   //***************NOTICIA****************
   addNoticia() {
@@ -128,5 +138,29 @@ export class Publicaciones implements OnInit {
     this.noticiasService.updateDistincion(this.noticiaForm.value.id, this.noticiaForm.value);
     alert('Distincion actualizada correctamente');
     this.limpiarFormulario();
+  }
+
+  //***************PETICION****************
+  addPeticion() {
+    this.noticiasService.addPeticion(this.noticiaForm.value);
+    const toastMessage = document.getElementById('ToastPeticion');
+    if(toastMessage) {
+      const toastBootstrap = (window as any).bootstrap.Toast.getOrCreateInstance(toastMessage);
+      toastBootstrap.show();
+    }
+    this.obtenerTodasPeticiones(); // Recarga la grilla inferior al añadir una nueva
+    this.limpiarFormulario();
+  }
+
+  obtenerTodasPeticiones() {
+    this.peticiones = this.noticiasService.getPeticiones() || [];
+  }
+
+  aprobarPeticion(id: number) {
+    this.noticiasService.aprobarPeticion(id);
+  }
+
+  rechazarPeticion(id: number) {
+    this.noticiasService.deletePeticion(id);
   }
 }
