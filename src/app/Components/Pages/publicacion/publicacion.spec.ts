@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Publicaciones } from './publicaciones';
+import { Publicaciones } from './administrar-noticias';
 
 describe('Publicaciones', () => {
   let component: Publicaciones;

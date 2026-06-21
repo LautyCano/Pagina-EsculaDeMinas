@@ -14,7 +14,7 @@
                             
                             <div class="col-12">
                                 <label for="imagen" class="form-label fw-medium">Imagen</label>
-                                <input type="file" class="form-control" id="imagen" formControlName="imagen" />
+                                <input type="file" class="form-control" id="imagen" accept="image/*" (change)="onFileSelected($event)" />
                             </div>
 
                             <div class="col-12">
@@ -23,8 +23,8 @@
                             </div>
 
                             <div class="col-12">
-                                <label for="esDistincion" class="form-label fw-medium">Tipo de publicación</label>
-                                <select class="form-select" id="esDistincion" formControlName="esDistincion">
+                                <label for="tipo" class="form-label fw-medium">Tipo de publicación</label>
+                                <select class="form-select" id="tipo" formControlName="tipo">
                                     <option value="">Seleccione una opción</option>
                                     <option value="noticia">Noticia</option>
                                     <option value="distincion">Distincion</option>
@@ -41,7 +41,7 @@
                             <button type="button" class="btn btn-outline-secondary" (click)="limpiarFormulario()">Limpiar</button>
                             <button type="submit" class="btn btn-primary" *ngIf="esEdicion">Guardar Cambios</button>
                             <button type="submit" class="btn btn-success" *ngIf="!esEdicion && !esPeticion">Publicar</button>
-                            <button type="button" class="btn btn-warning text-dark" *ngIf="esPeticion" (click)="addPeticion()">Realizar petición</button>
+                            <button type="submit" class="btn btn-warning text-dark" *ngIf="esPeticion" >Realizar petición</button>
                         </div>
                     </div>
                 </form>
@@ -50,9 +50,9 @@
             <section class="container py-5 px-0">
                 <h4 class="mb-3 text-secondary text-uppercase tracking-wider" style="font-size: 0.9rem;">Vista Previa Interactiva</h4>
                 <div class="card mb-5 shadow-sm border-0 bg-white">
-                    <img class="card-img-top" [src]="noticiaForm.get('imagen')?.value || 'https://via.placeholder.com/800x400?text=Vista+Previa+de+Imagen'" alt="Preview" style="max-height: 350px; object-fit: cover;">
+                    <img class="card-img-top" [src]="imagePreview || 'https://placehold.co/800x400?text=Vista+Previa+de+Imagen'" alt="Preview" style="max-height: 350px; object-fit: cover;">
                     <div class="card-body">
-                        <span class="badge bg-primary text-uppercase mb-2">{{ noticiaForm.get('esDistincion')?.value || 'Categoría' }}</span>
+                        <span class="badge bg-primary text-uppercase mb-2">{{ noticiaForm.get('tipo')?.value || 'Categoría' }}</span>
                         <h3 class="fw-bold text-dark">{{ noticiaForm.get('titulo')?.value || 'Título Temporal de la Publicación' }}</h3>
                         <div class="text-muted small text-uppercase fw-semibold mb-3">Escuela de Minas &nbsp;|&nbsp; Jujuy</div>
                         <p class="card-text text-secondary">{{ noticiaForm.get('descripcion')?.value || 'Aquí se visualizará el cuerpo de la descripción en tiempo real a medida que escriba en el cuadro de texto superior.' }}</p>

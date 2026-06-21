@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { RouterLink, Router } from "@angular/router";
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { Inject } from '@angular/core';
 import { SGestionusuarios } from '../../../Services/usuarios-service';
-import { NoticiasServices } from '../../../Services/noticias-service';
+import { PublicacionApi } from '../../../Services/publicacion-api';
 import { GestionInscripcion } from '../../../Services/inscripcion-service';
 
 @Component({
@@ -29,12 +29,19 @@ export class Header {
     @Inject(DOCUMENT) private document: Document,
     public router: Router,
     private serviceUsuarios: SGestionusuarios,
-    private noticiasService: NoticiasServices,
-    private gestionInscripcion: GestionInscripcion
+    public apiPublicaciones: PublicacionApi,
+    private gestionInscripcion: GestionInscripcion,
+    private cdr: ChangeDetectorRef
   ) {
-    this.noticias = this.noticiasService.getNoticias();
-    this.distinciones = this.noticiasService.getDistinciones();
+    this.getNoticias();
+    this.getDistinciones();
     this.isDarkMode = this.document.body.classList.contains('dark-mode');
+  }
+
+  onPanelOpen() {
+    this.getNoticias();
+    this.getDistinciones();
+    this.getPeticion();
   }
 
   onSubmit() {
@@ -67,24 +74,32 @@ export class Header {
     return rol;
   }
 
-  administrarPeticiones() {
-   this.router.navigate(['/publicaciones']);
+  //***************************Publicaciones******************************
+
+  addPublicacion() {
+    this.router.navigate(['/publicacion']);
   }
 
-  realizarPeticion() {
-   this.router.navigate(['/publicaciones'], { 
-      state: { esPeticion: true }
-    });
-  }
-
-  //***************************Noticias******************************
-  borrarNoticia(id: number) {
-    this.noticiasService.deleteNoticia(id);
+  borrarPublicacion(id: number) {
+    let borrado: string;
+    this.apiPublicaciones.deletePublicacion(id).subscribe(
+      (result: any) => {
+        borrado = result;
+        this.getNoticias();  // Refresca la lista de noticias
+        this.getDistinciones();  // Refresca la lista de distinciones
+        this.getPeticion();  // Refresca la lista de peticiones
+        this.cdr.detectChanges();
+        console.log("Se borro la Publicacion?:");
+        console.log(borrado);
+      },
+      (error: any) => {
+        console.log(error);
+      });
   }
 
   editarNoticia(noticia: any) {
     localStorage.setItem('itemEditar', JSON.stringify(noticia));// se guarda la noticia en el localStorage para poder editarlo en el componente de publicaciones
-    this.router.navigate(['/publicaciones'], { 
+    this.router.navigate(['/publicacion'], { 
       state: { data: noticia }
     });
   }
@@ -93,14 +108,41 @@ export class Header {
     this.verNoticia = !this.verNoticia;
   }
 
+  getNoticias() {
+   this.apiPublicaciones.getNoticias().subscribe(
+      (result: any) => {
+        this.noticias = result;
+        this.cdr.detectChanges();
+        console.log("Se encotro Noticias?:");
+        console.log(this.noticias);
+      },
+      (error: any) => {
+        console.log(error);
+      });
+  }
+
 //****************************Distinciones*********************************
+  
+  getDistinciones() {
+   this.apiPublicaciones.getDistinciones().subscribe(
+      (result: any) => {
+        this.distinciones = result;
+        this.cdr.detectChanges();
+        console.log("Se encotro Distinciones?:");
+        console.log(this.distinciones);
+      },
+      (error: any) => {
+        console.log(error);
+      });
+  }
+
   borrarDistincion(id: number) {
-    this.noticiasService.deleteDistincion(id);
+    this.borrarPublicacion(id);
   }
 
   editarDistincion(distincion: any) {
     localStorage.setItem('itemEditar', JSON.stringify(distincion));
-    this.router.navigate(['/publicaciones'], { 
+    this.router.navigate(['/publicacion'], { 
       state: { distincion: distincion }
     });
   }
@@ -109,21 +151,50 @@ export class Header {
     this.verDistincion = !this.verDistincion;
   }
 
-  addNoticia() {
-    this.router.navigate(['/publicaciones']);
-  }
-
   //****************************Peticiones*********************************
   aprobarPeticion(id: number) {
-    this.noticiasService.aprobarPeticion(id);
+    let aprobado: string;
+    this.apiPublicaciones.putAprobarPeticion(id).subscribe(
+      (result: any) => {
+        aprobado = result;
+        this.getPeticion();  // Refresca la lista de peticiones
+        this.getNoticias();  // Refresca noticias por si alguna peticion aprobada era noticia
+        this.getDistinciones();  // Refresca distinciones por si alguna era distincion
+        this.cdr.detectChanges();
+        console.log("Fue Aprobado?:");
+        console.log(aprobado);
+      },
+      (error: any) => {
+        console.log(error);
+      });
   }
 
   rechazarPeticion(id: number) {
-    this.noticiasService.deletePeticion(id);
+    let borrado: string;
+    this.apiPublicaciones.deletePublicacion(id).subscribe(
+      (result: any) => {
+        borrado = result;
+        this.getPeticion();  // Refresca la lista de peticiones
+        this.cdr.detectChanges();
+        console.log("Se borro la Publicacion?:");
+        console.log(borrado);
+      },
+      (error: any) => {
+        console.log(error);
+      });
   }
 
   getPeticion() {
-    this.peticiones = this.noticiasService.getPeticiones();
+    this.apiPublicaciones.getPeticiones().subscribe(
+      (result: any) => {
+        this.peticiones = result;
+        this.cdr.detectChanges();
+        console.log("Se encontro Peticiones?:");
+        console.log(this.peticiones);
+      },
+      (error: any) => {
+        console.log(error);
+      });
   }
 
   infoPeticion(peticion: any) {
@@ -142,6 +213,16 @@ export class Header {
       const infoInstance = new (window as any).bootstrap.Modal(infoModal);
       infoInstance.show();
     }
+  }
+
+  realizarPeticion() {
+   this.router.navigate(['/publicacion'], { 
+      state: { esPeticion: true }
+    });
+  }
+
+  administrarPeticiones() {
+   this.router.navigate(['/publicacion']);
   }
 
 //*********************************Registrar Usuario*********************************

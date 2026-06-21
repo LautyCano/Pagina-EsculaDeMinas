@@ -102,7 +102,7 @@
 </div>
 
 <!-- Modal del Panel Administrador -->
-<div class="modal fade modal-panel" id="panel" tabindex="-1" aria-labelledby="panelLabel" aria-hidden="true">
+<div class="modal fade modal-panel" id="panel" tabindex="-1" aria-labelledby="panelLabel" aria-hidden="true" (shown.bs.modal)="onPanelOpen()">
     <div class="modal-dialog modal-dialog-panel"> 
         <div class="modal-content modal-content-panel">
             
@@ -120,7 +120,7 @@
                         <div class="card-body p-2">
                             <h6 class="text-uppercase fw-bold text-secondary mb-2 small" style="font-size: 0.75rem;">Gestión</h6>
                             <div class="d-flex flex-wrap gap-1">
-                                <button class="btn btn-sm btn-success d-flex align-items-center gap-1 py-1 px-2" (click)="addNoticia()">
+                                <button class="btn btn-sm btn-success d-flex align-items-center gap-1 py-1 px-2" (click)="addPublicacion()">
                                     <i class="bi bi-plus-circle"></i> Agregar
                                 </button>
                                 <button class="btn btn-sm btn-outline-primary d-flex align-items-center gap-1 py-1 px-2" (click)="cambiarEstadoInscripcion()">
@@ -188,7 +188,7 @@
                                                 <i class="bi bi-pencil"></i>
                                             </button>
                                             <button class="btn btn-sm btn-danger text-white d-flex align-items-center justify-content-center p-0" 
-                                                    (click)="borrarNoticia(noticia.id)" data-bs-dismiss="modal" title="Eliminar"
+                                                    (click)="borrarPublicacion(noticia.id)" data-bs-dismiss="modal" title="Eliminar"
                                                     style="width: 32px; height: 32px; min-width: 32px;">
                                                 <i class="bi bi-trash"></i>
                                             </button>
@@ -240,6 +240,7 @@
                             }
                         </div>
                         }
+                    </div>  <!-- Cierra el wrapper de distinciones -->
 
                         <div class="mb-2">
                         <div class="d-flex justify-content-between align-items-center mb-2">
@@ -285,7 +286,7 @@
                                 </div>
                             }
                         </div>
-                    </div>
+                        </div>  <!-- Cierra el wrapper de peticiones -->
             </div>
 
             <div class="modal-footer bg-light p-2 border-top">
