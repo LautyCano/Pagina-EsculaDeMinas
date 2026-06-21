@@ -5,7 +5,7 @@ import { Historia } from './Components/Pages/historia/historia';
 import { Carreras } from './Components/Pages/carreras/carreras';
 import { Sedes } from './Components/Pages/sedes/sedes';
 import { Inscripcion } from './Components/Pages/inscripcion/inscripcion';
-import { Publicaciones } from './Components/Pages/publicaciones/publicaciones';
+import { Publicacion } from './Components/Pages/publicacion/publicacion';
 import { Login } from './Components/Pages/login/login';
 import { authGuard } from './Services/auth-service-guard';
 import { PracticasProf } from './Components/Pages/practicas-prof/practicas-prof';
@@ -20,7 +20,7 @@ export const routes: Routes = [
     { path: 'carreras', component: Carreras },
     { path: 'sedes', component: Sedes },
     { path: 'inscripcion', component: Inscripcion },
-    { path: 'publicaciones', component: Publicaciones, canActivate: [authGuard] },
+    { path: 'publicacion', component: Publicacion, canActivate: [authGuard] },
     { path: 'login', component: Login},
     { path: 'practicas-prof', component: PracticasProf },
     { path: 'calendario', component: Calendario },

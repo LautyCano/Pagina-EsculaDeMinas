@@ -1,6 +1,6 @@
-import { Component, OnInit, AfterViewInit, HostListener, QueryList, ElementRef, ViewChildren, signal } from '@angular/core';
+import { Component, OnInit, AfterViewInit, HostListener, QueryList, ElementRef, ViewChildren, signal, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NoticiasServices } from '../../../Services/noticias-service';
+import { PublicacionApi } from '../../../Services/publicacion-api';
 
 @Component({
   selector: 'app-noticias',
@@ -13,9 +13,36 @@ export class Noticias implements AfterViewInit {
   noticias: any[] = [];
   distinciones: any[] = [];
 
-  constructor(private noticiasService: NoticiasServices) {
-    this.noticias = this.noticiasService.getNoticias();
-    this.distinciones = this.noticiasService.getDistinciones();
+  getDistinciones() {
+    this.apiPublicaciones.getDistinciones().subscribe(
+      (result: any) => {
+        this.distinciones = result;
+        this.cdr.detectChanges();
+        console.log("Se encotro Distinciones?:");
+        console.log(this.distinciones);
+      },
+      (error: any) => {
+        console.log(error);
+      });
+  }
+
+  getNoticias() {
+    this.apiPublicaciones.getNoticias().subscribe(
+      (result: any) => {
+        this.noticias = result;
+        this.cdr.detectChanges();
+        console.log("Se encotro Noticias?:");
+        console.log(this.noticias);
+      },
+      (error: any) => {
+        console.log(error);
+      });
+  }
+
+  constructor(public apiPublicaciones: PublicacionApi,
+    private cdr: ChangeDetectorRef) {
+    this.getNoticias();
+    this.getDistinciones();
   }  
   /** Categoría seleccionada actualmente en el filtro */
   selectedCategory = signal<string>('all');
